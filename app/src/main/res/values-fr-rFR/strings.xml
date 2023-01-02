@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GamePod</string>
+    <string name="welcome">Bienvenue !</string>
+    <string name="text_connect">Veuillez vous connecter ou créer un nouveau compte pour utiliser l\'application.</string>
+    <string name="password_button">Mot de passe</string>
+    <string name="connect_button">Se connecter</string>
+    <string name="new_account">Créer un nouveau compte</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+</resources>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GamePod</string>
+    <string name="welcome">Welcome</string>
+    <string name="text_connect">Please login or create a new account to use the application.</string>
+    <string name="password_button">Password</string>
+    <string name="connect_button">connexion</string>
+    <string name="new_account">Create new account</string>
+    <string name="forgot_password">Forgot password ?</string>
 </resources>

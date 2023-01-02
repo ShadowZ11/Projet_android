@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+    <style name="ConnexionLayout" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColor">#ffffff</item>
+        <item name="fontFamily">@font/googlesans_medium</item>
+        <item name="android:textColorHint">#ffffff</item>
+    </style>
+
 </resources>
