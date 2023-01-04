@@ -15,10 +15,11 @@
     </style>
 
 
-    <style name="ConnexionLayout" parent="@style/Theme.AppCompat.Light">
+    <style name="AccountManageStyle" parent="@style/Theme.AppCompat.Light">
         <item name="android:textColor">#ffffff</item>
+        <item name="android:editTextColor">#ffffff</item>
         <item name="fontFamily">@font/googlesans_medium</item>
-        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:textColorHint">#50ffffff</item>
     </style>
 
 </resources>

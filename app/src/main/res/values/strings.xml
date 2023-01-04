@@ -6,4 +6,10 @@
     <string name="connect_button">connexion</string>
     <string name="new_account">Create new account</string>
     <string name="forgot_password">Forgot password ?</string>
+    <string name="sign_in_header">Sign In</string>
+    <string name="text_sign_in">Please enter this information, so that your lists are saved.</string>
+    <string name="password_verify">Verify your password</string>
+    <string name="username">Username</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="already_account">Already have an account ?</string>
 </resources>

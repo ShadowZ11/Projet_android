@@ -7,4 +7,10 @@
     <string name="connect_button">Se connecter</string>
     <string name="new_account">Créer un nouveau compte</string>
     <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="sign_in_header">Inscription</string>
+    <string name="text_sign_in">Veuillez saisir ces différentes informations, afin que vos listes soient sauvegardées.</string>
+    <string name="password_verify">Vérifiez votre mot de passe</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="sign_in_button">S\'inscrire</string>
+    <string name="already_account">Déjà un compte ?</string>
 </resources>

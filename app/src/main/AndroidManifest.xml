@@ -13,9 +13,17 @@
         android:theme="@style/Theme.GamePod"
         tools:targetApi="31">
         <activity
+            android:name=".Inscription"
+            android:exported="true"
+            android:theme="@style/AccountManageStyle">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Connexion"
             android:exported="true"
-            android:theme="@style/ConnexionLayout">
+            android:theme="@style/AccountManageStyle">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
