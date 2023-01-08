@@ -12,4 +12,8 @@
     <string name="username">Username</string>
     <string name="sign_in_button">Sign In</string>
     <string name="already_account">Already have an account ?</string>
+    <string name="home">Home</string>
+    <string name="know_more">Show more</string>
+    <string name="search_bar">Search game...</string>
+    <string name="best_sales">Best Sales !</string>
 </resources>

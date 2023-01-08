@@ -13,4 +13,8 @@
     <string name="username">Nom d\'utilisateur</string>
     <string name="sign_in_button">S\'inscrire</string>
     <string name="already_account">Déjà un compte ?</string>
+    <string name="home">Accueil</string>
+    <string name="know_more">En savoir plus</string>
+    <string name="search_bar">Rechercher un jeu...</string>
+    <string name="best_sales">Les meilleures ventes</string>
 </resources>
