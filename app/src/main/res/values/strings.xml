@@ -16,4 +16,6 @@
     <string name="know_more">Show more</string>
     <string name="search_bar">Search game...</string>
     <string name="best_sales">Best Sales !</string>
+    <string name="send_password">Resend my password</string>
+    <string name="forgot_password_description">Please enter your email to reset your password</string>
 </resources>
