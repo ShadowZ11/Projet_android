@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GamePod"
         tools:targetApi="31">
         <activity
+            android:name=".MyWishList"
+            android:exported="false" />
+        <activity
+            android:name=".MyLikes"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPassword"
             android:exported="true">
             <meta-data

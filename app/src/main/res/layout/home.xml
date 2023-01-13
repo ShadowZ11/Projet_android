@@ -43,14 +43,14 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/like"
                 android:layout_weight="0.5"
-                android:id="@+id/to_my_wish_list"
+                android:id="@+id/to_my_fav"
                 android:scaleType="centerInside"
                 />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/whishlist"
-                android:id="@+id/to_my_fav"
+                android:id="@+id/to_my_wish_list"
                 android:layout_weight="0.5"
                 android:scaleType="centerInside"
                 />
@@ -118,6 +118,7 @@
                         android:background="@drawable/custom_search_edit_text"
                         android:textColorHint="#ffffff"
                         android:textColor="#ffffff"
+                        android:inputType="text"
                         android:textSize="15sp"
                         android:paddingStart="10dp"
                         android:paddingEnd="1dp"

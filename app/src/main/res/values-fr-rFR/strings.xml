@@ -19,4 +19,8 @@
     <string name="best_sales">Les meilleures ventes</string>
     <string name="send_password">Renvoyer mon mdp</string>
     <string name="forgot_password_description">Veuillez saisir votre email afin de réinitialiser votre mot de passe</string>
+    <string name="my_likes">Mes likes</string>
+    <string name="empty_likes_text">Vous n\'avez encore pas liké de contenu. Cliquez sur le coeur pour en rajouter</string>
+    <string name="empty_wish_list_text">Vous n\'avez pas encore de wishlist. Cliquez sur l\'étoile pour commencer à en rajouter</string>
+    <string name="my_wish_list">Ma liste de souhaits</string>
 </resources>

@@ -18,4 +18,8 @@
     <string name="best_sales">Best Sales !</string>
     <string name="send_password">Resend my password</string>
     <string name="forgot_password_description">Please enter your email to reset your password</string>
+    <string name="my_likes">My likes</string>
+    <string name="empty_likes_text">You have no likes yet. Click on the heart to start adding</string>
+    <string name="empty_wish_list_text">You have no wishlist yet. Start adding by click on the stars</string>
+    <string name="my_wish_list">My Wishlist</string>
 </resources>
