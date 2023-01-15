@@ -13,6 +13,9 @@
         android:theme="@style/Theme.GamePod"
         tools:targetApi="31">
         <activity
+            android:name=".detailsGame"
+            android:exported="false" />
+        <activity
             android:name=".MyWishList"
             android:exported="false" />
         <activity

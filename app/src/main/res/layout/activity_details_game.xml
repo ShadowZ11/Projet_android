@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a2025"
+    android:theme="@style/TextAppearance.GamePod"
+    tools:context=".detailsGame">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="@id/guideline_start_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:theme="@style/HomeHeader"
+        android:background="@drawable/background_header"
+        android:id="@+id/details_game_layout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/back"
+            android:layout_weight="0.3"
+            android:id="@+id/back_button"
+            android:scaleType="centerInside"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/details_game_title"
+            android:textSize="20sp"
+            android:gravity="center|start"
+            android:layout_weight="4"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/like"
+            android:layout_weight="0.5"
+            android:id="@+id/to_my_fav"
+            android:scaleType="centerInside"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/whishlist"
+            android:id="@+id/to_my_wish_list"
+            android:layout_weight="0.5"
+            android:scaleType="centerInside"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/image_description_game"
+        app:layout_constraintTop_toBottomOf="@id/details_game_layout"
+        android:src="@drawable/battlefield_image"
+        android:scaleType="centerCrop"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/start_game_description_on_image"
+        app:layout_constraintGuide_percent="0.35"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_start_game_description"
+        app:layout_constraintGuide_begin="25dp"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_end_game_description"
+        app:layout_constraintGuide_end="25dp"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+        android:background="@drawable/custom_game_view"
+        android:id="@+id/layout_game_description"
+        app:layout_constraintTop_toBottomOf="@id/start_game_description_on_image"
+        app:layout_constraintStart_toStartOf="@id/guideline_start_game_description"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_game_description">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="0.7"
+            android:scaleType="centerInside"
+            android:layout_gravity="start|center"
+            android:src="@drawable/fifa_23_jacket"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="start|center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="Nom du jeu"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Nom de l'éditeur"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_start_menu"
+        app:layout_constraintGuide_begin="15dp"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_end_menu"
+        app:layout_constraintGuide_end="15dp"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:padding="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start_menu"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_menu"
+        app:layout_constraintTop_toBottomOf="@id/layout_game_description">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:padding="0dp"
+            android:background="@drawable/custom_decription"
+            android:text="@string/description_game"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:background="@drawable/custom_opinion"
+            android:layout_weight="0.5"
+            android:text="@string/Reviews"/>
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

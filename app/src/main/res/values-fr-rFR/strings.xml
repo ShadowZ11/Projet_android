@@ -15,7 +15,7 @@
     <string name="already_account">Déjà un compte ?</string>
     <string name="home">Accueil</string>
     <string name="know_more">En savoir plus</string>
-    <string name="search_bar">Rechercher un jeu...</string>
+    <string name="search_bar">Rechercher un jeu…</string>
     <string name="best_sales">Les meilleures ventes</string>
     <string name="send_password">Renvoyer mon mdp</string>
     <string name="forgot_password_description">Veuillez saisir votre email afin de réinitialiser votre mot de passe</string>
@@ -23,4 +23,7 @@
     <string name="empty_likes_text">Vous n\'avez encore pas liké de contenu. Cliquez sur le coeur pour en rajouter</string>
     <string name="empty_wish_list_text">Vous n\'avez pas encore de wishlist. Cliquez sur l\'étoile pour commencer à en rajouter</string>
     <string name="my_wish_list">Ma liste de souhaits</string>
+    <string name="details_game_title">Détail du jeu</string>
+    <string name="description_game">Description</string>
+    <string name="Reviews">Avis</string>
 </resources>

@@ -14,7 +14,7 @@
     <string name="already_account">Already have an account ?</string>
     <string name="home">Home</string>
     <string name="know_more">Show more</string>
-    <string name="search_bar">Search game...</string>
+    <string name="search_bar">Search game…</string>
     <string name="best_sales">Best Sales !</string>
     <string name="send_password">Resend my password</string>
     <string name="forgot_password_description">Please enter your email to reset your password</string>
@@ -22,4 +22,7 @@
     <string name="empty_likes_text">You have no likes yet. Click on the heart to start adding</string>
     <string name="empty_wish_list_text">You have no wishlist yet. Start adding by click on the stars</string>
     <string name="my_wish_list">My Wishlist</string>
+    <string name="details_game_title">Details Game</string>
+    <string name="description_game">Description</string>
+    <string name="Reviews">Reviews</string>
 </resources>
