@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 
 class Connexion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connexion)
 
