@@ -26,4 +26,6 @@
     <string name="details_game_title">Détail du jeu</string>
     <string name="description_game">Description</string>
     <string name="Reviews">Avis</string>
+    <string name="search_header">Recherche</string>
+    <string name="result_search">Nombre de résultats :</string>
 </resources>
