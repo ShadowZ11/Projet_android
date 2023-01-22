@@ -1,10 +1,14 @@
 package com.example.gamepod
 
+import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.Date
 
+    //class json pour les avis
     data class AuthorReviews(
         val steamid: Int,
         val num_games_owned: Int,
@@ -49,28 +53,80 @@ import java.util.Date
         val reviews: List<ReviewsSent>,
         )
 
-    data class Ranking(
-        val success: Int,
-        val other: String
+
+    //class json pour les jeux les plus joués
+    data class Ranks(
+        val rank: Int,
+        val appId: Int,
+        val last_week_rank: Int,
+        val peak_in_game: Int
     )
 
-    data class Game(
-        val id: Int,
+    data class ResponseRanking(
+        val rollup_date: Int,
+        val ranks: List<Ranks>
+    )
+
+    data class Ranking(
+        val response: ResponseRanking
+    )
+
+
+    //class best sales
+    data class GamesId(
+        val appid: Int
+    )
+
+    data class Items(
+        val name: String,
+        val start_of_month: Int,
+        val url_path: String,
+        val items: List<GamesId>
+    )
+    data class PagesSales(
+        val pages: List<Items>
+    )
+
+    data class ResponseBestSales(
+        val response: PagesSales
+    )
+
+    //class all Games
+    data class Games(
+        val appid: Int,
         val name: String
+    )
+    data class Apps(
+        val apps: List<Games>
+    )
+
+    data class ResponseAllGames(
+        val applist: Apps
+    )
+
+
+    //Class pour la récupération du jeu
+    data class Game(
+        @SerializedName("data")
+        val data: Map<String, JsonObject>
     )
 
 interface API {
 
+    @GET("/ISteamApps/GetAppList/v2/")
+    fun getAllGames(): Call<ResponseAllGames>
 
+    @GET("/ISteamChartsService/GetTopReleasesPages/v1/")
+    fun getTopRealease(): Call<ResponseBestSales>
 
-    @GET("/ranking")
-    fun getRanking() : Call<List<Ranking>>
+    @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
+    fun getRanking() : Call<Ranking>
 
-    @GET("/getGame")
+    @GET("/api/appdetails")
     fun getGames(@Query("appids") id: String): Call<Game>
 
-    @GET("/opinion")
-    fun getOpinionGame(@Query("json") id: String): Call<Reviews>
+    @GET("/appreviews/{id}")
+    fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Call<Reviews>
 
 
 }
