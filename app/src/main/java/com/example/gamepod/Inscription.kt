@@ -30,12 +30,6 @@ class Inscription : AppCompatActivity() {
 
         emailField = findViewById(R.id.email_field)
         passwordField = findViewById(R.id.password_field)
-        progressDialog = AlertDialog.Builder(this)
-            .setTitle("Registering...")
-            .setView(R.layout.progress_dialog)
-            .setCancelable(false)
-            .create()
-        progressDialog.show()
 
 
         val accountExist = findViewById<TextView>(R.id.already_account)
@@ -70,8 +64,11 @@ class Inscription : AppCompatActivity() {
                 Toast.makeText(this, "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            progressDialog.setMessage("Registering...")
+            progressDialog = AlertDialog.Builder(this)
+                .setTitle("Registering...")
+                .setView(R.layout.progress_dialog)
+                .setCancelable(false)
+                .create()
             progressDialog.show()
 
             auth.createUserWithEmailAndPassword(email, password)
