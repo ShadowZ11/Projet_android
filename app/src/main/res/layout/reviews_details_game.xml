@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Nom de l'utilisateur"
+            android:id="@+id/name_user"
             android:gravity="center|start"
             android:layout_weight="0.5"
             android:textSize="15sp"/>
@@ -27,6 +28,7 @@
             android:numStars="5"
             android:layout_gravity="center"
             android:stepSize="0.5"
+            android:id="@+id/note_review"
             android:isIndicator="true"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_height="wrap_content"
@@ -37,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.35"
+        android:id="@+id/review_description"
         android:textSize="20sp"/>
 
 </LinearLayout>
