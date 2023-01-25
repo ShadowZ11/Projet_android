@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class GameDetailActivity : AppCompatActivity() {
 
@@ -36,7 +38,7 @@ class GameDetailActivity : AppCompatActivity() {
 
             reviewsPath.setOnClickListener {
                 viewGroup.removeAllViews()
-                val reviewsView = layoutInflater.inflate(R.layout.reviews_view, viewGroup, false)
+                val reviewsView = layoutInflater.inflate(R.layout.reviews_layout, viewGroup, false)
                 viewGroup.addView(reviewsView)
             }
         }
@@ -50,7 +52,19 @@ class GameDetailActivity : AppCompatActivity() {
 
     fun showReviews(view: View) {
         viewGroup.removeAllViews()
-        val reviewsView = layoutInflater.inflate(R.layout.reviews_view, viewGroup, false)
+        val recyclerView = findViewById<RecyclerView>(R.id.list_reviews)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val reviews = listOf(
+            GamePreview("Game 1", "Description for Game 1", "10"),
+            GamePreview("Game 2", "Description for Game 2", "20"),
+            GamePreview("Game 3", "Description for Game 3", "30"),
+            GamePreview("Game 1", "Description for Game 1", "10"),
+            GamePreview("Game 2", "Description for Game 2", "20"),
+            GamePreview("Game 3", "Description for Game 3", "30")
+        )
+        val adapter = ListGameAdapter(reviews)
+        recyclerView.adapter = adapter
+        val reviewsView = layoutInflater.inflate(R.layout.reviews_layout, viewGroup, false)
         viewGroup.addView(reviewsView)
     }
 }

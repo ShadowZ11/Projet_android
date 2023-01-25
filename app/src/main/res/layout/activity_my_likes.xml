@@ -74,6 +74,14 @@
         app:layout_constraintGuide_percent="0.9"
         android:id="@+id/end_text"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/list_game"
+        android:layout_marginTop="5dp"
+        tools:ignore="MissingConstraints">
+    </androidx.recyclerview.widget.RecyclerView>
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -87,6 +95,7 @@
         app:layout_constraintEnd_toEndOf="@id/end_text"
         android:text="@string/empty_likes_text"
         />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
