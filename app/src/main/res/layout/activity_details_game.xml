@@ -170,7 +170,9 @@
             android:gravity="center"
             android:padding="0dp"
             android:background="@drawable/custom_decription"
-            android:text="@string/description_game"/>
+            android:text="@string/description_game"
+            android:onClick="showDescription"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -179,7 +181,8 @@
             android:textSize="15sp"
             android:background="@drawable/custom_opinion"
             android:layout_weight="0.5"
-            android:text="@string/Reviews"/>
+            android:text="@string/Reviews"
+            android:onClick="showReviews"/>
 
     </LinearLayout>
 
