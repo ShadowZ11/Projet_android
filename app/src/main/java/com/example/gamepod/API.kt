@@ -9,7 +9,7 @@ import retrofit2.http.Query
 import java.util.Date
 
     //class json pour les avis
-    data class AuthorReviews(
+/*    data class AuthorReviews(
         val steamid: Int,
         val num_games_owned: Int,
         val num_reviews: Int,
@@ -35,23 +35,26 @@ import java.util.Date
         val written_during_early_access: Boolean,
         val developer_response: String,
         val timestamp_dev_responded: Date
-    )
+    )*/
 
-    data class ReviewsSummary(
+/*    data class ReviewsSummary(
         val num_reviews: Int,
         val review_score: Int,
         val review_score_desc: String,
         val total_positive: Int,
         val total_negative: Int,
         val total_reviews: Int
-    )
+    )*/
 
     data class Reviews(
-        val success: Int,
-        val query_summary : ReviewsSummary,
-        val cursor: Int,
-        val reviews: List<ReviewsSent>,
-        )
+        @SerializedName("steamGameId")
+        val idGame: Int,
+        @SerializedName("steamReviewId")
+        val idReview: Int,
+        val userResume: String,
+        val description: String,
+        val rating: Float
+    )
 
 
     //class json pour les jeux les plus joués
@@ -106,10 +109,31 @@ import java.util.Date
 
 
     //Class pour la récupération du jeu
-    data class Game(
+   /* data class Game(
         @SerializedName("data")
         val data: Map<String, JsonObject>
+    )*/
+
+    data class Game(
+        @SerializedName("steamGameId")
+        val id: Int,
+        val name: String,
+        val description: String,
+        val editorName: String,
+        val price: Int,
+        val review: List<Reviews>
     )
+
+    data class WishList(
+        val userId: Int,
+        val games: List<Int>
+    )
+
+    data class LikeList(
+        val userId: Int,
+        val games: List<Int>
+    )
+
 
 interface API {
 
@@ -128,5 +152,7 @@ interface API {
     @GET("/appreviews/{id}")
     fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Call<Reviews>
 
+    @GET("/users/{id}")
+    fun getUser(@Path("id") id: Int)
 
 }

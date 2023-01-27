@@ -8,6 +8,7 @@ import android.text.style.UnderlineSpan
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -23,6 +24,7 @@ class Inscription : AppCompatActivity() {
     private lateinit var progressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inscription)
 
