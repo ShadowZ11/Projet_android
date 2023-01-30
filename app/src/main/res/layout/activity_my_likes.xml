@@ -49,53 +49,13 @@
         android:id="@+id/guideline_center"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
-    
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:layout_constraintTop_toTopOf="@id/guideline_center"
-        app:layout_constraintBottom_toTopOf="@id/guideline_center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/empty_list_image"
-        android:src="@drawable/empty_likes"/>
-    
 
-    <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1"
-        android:id="@+id/begin_text"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9"
-        android:id="@+id/end_text"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:id="@+id/list_game"
-        android:layout_marginTop="5dp"
-        tools:ignore="MissingConstraints">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/proxima_nova_font"
-        android:layout_marginTop="35dp"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/empty_list_image"
-        app:layout_constraintStart_toStartOf="@id/begin_text"
-        app:layout_constraintEnd_toEndOf="@id/end_text"
-        android:text="@string/empty_likes_text"
-        />
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/home_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/myLikesContent">
+    </View>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
