@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a2025"
+    tools:context=".Search">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="@id/guideline_start_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:theme="@style/HomeHeader"
+        android:background="@drawable/background_header"
+        android:id="@+id/search_layout">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/quit"
+            android:id="@+id/quit_search"
+            android:scaleType="centerInside"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/search_header"
+            android:gravity="center|start"
+            android:layout_weight="4"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="25dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="25dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_recycle_view_start"
+        app:layout_constraintGuide_begin="15dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guideline_recycle_view_end"
+        app:layout_constraintGuide_end="15dp"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start_scroll_view"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_scroll_view"
+        app:layout_constraintTop_toBottomOf="@id/search_layout"
+        android:background="@drawable/custom_search"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_search_edit_text"
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"
+            android:inputType="text"
+            android:textSize="15sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="1dp"
+            android:layout_weight="1"
+            android:hint="@string/search_bar"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:scaleY="0.5"
+            android:scaleX="0.5"
+            android:src="@drawable/search"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/number_of_result_text"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintStart_toStartOf="@id/guideline_recycle_view_start"
+        android:text="@string/result_search"
+        android:theme="@style/TextAppearance.GamePod"
+        android:textSize="16sp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/number_of_result_text"
+        app:layout_constraintStart_toStartOf="@id/guideline_recycle_view_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end_scroll_view"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
