@@ -17,6 +17,10 @@ class MyLikes : AppCompatActivity() {
         val quitLikes = findViewById<ImageView>(R.id.quit_wishlist)
         val heartEmpty = findViewById<ImageView>(R.id.empty_list_image)
 
+        //TODO : si cache vide afficher emptylikes, si cache pas vide afficher list_likes avec le cache,
+        // et en parallèle lancer la requete au back :
+        // si la requete est passée alors actuliser les données,
+        // sinon afficher un pop up toast pour dire derniere actualisation il y a x temps
 
         quitLikes.setOnClickListener{
             finish()
