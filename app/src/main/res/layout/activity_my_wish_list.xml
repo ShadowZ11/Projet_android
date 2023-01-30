@@ -88,5 +88,13 @@
         android:text="@string/empty_wish_list_text"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/list_game"
+        android:layout_marginTop="5dp"
+        tools:ignore="MissingConstraints" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="coucoucoucoucoucuo">
+        android:id="@+id/gameReviewUser"
+        android:text="uwuuwuuwuuuwuu">
     </TextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_reviews"
-        android:layout_marginTop="5dp"
-        tools:ignore="MissingConstraints" />
+        android:id="@+id/gameReviewsDescription"
+        android:text="uwuuwuuwuuuwuu">
+    </TextView>
 
+    <RatingBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

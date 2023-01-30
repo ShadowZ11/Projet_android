@@ -20,10 +20,10 @@
             android:exported="true" />
         <activity
             android:name=".MyWishList"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MyLikes"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ForgotPassword"
             android:exported="true">
@@ -59,6 +59,10 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+        </activity>
+        <activity
+            android:name=".GameDetailActivity"
+            android:exported="true">
         </activity>
     </application>
 
