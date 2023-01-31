@@ -40,7 +40,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Connexion"
+            android:name=".ConnexionActivity"
             android:exported="true"
             android:theme="@style/AccountManageStyle">
             <meta-data

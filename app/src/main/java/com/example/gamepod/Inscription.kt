@@ -42,7 +42,7 @@ class Inscription : AppCompatActivity() {
 
         accountExist.text = mSpannableString
         accountExist.setOnClickListener {
-            val toConnectActivity = Intent(this, Connexion::class.java)
+            val toConnectActivity = Intent(this, ConnexionActivity::class.java)
             startActivity(toConnectActivity)
             finish()
         }
