@@ -1,5 +1,6 @@
 package com.example.gamepod
 
+import android.net.NetworkRequest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class DetailsGame : AppCompatActivity() {
 
@@ -75,6 +79,28 @@ class DetailsGame : AppCompatActivity() {
 
     private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
         view.removeAllViews()
+
+        GlobalScope.launch(Dispatchers.Main) {
+
+            delay(5000)
+
+            try {
+                val request = withContext(Dispatchers.IO) {
+
+                    val api = Retrofit.Builder()
+                        .baseUrl("gfsdgsd")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(API::class.java)
+
+                    api.getOpinionGame(750, "1")
+
+                }
+
+            } catch (e: Exception) {
+            }
+
+        }
         //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
         val reviews = listOf(
             ItemReviewsView("Game 1", 0.9f,"Description for Game 1"),

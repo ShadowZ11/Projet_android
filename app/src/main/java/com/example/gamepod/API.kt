@@ -3,6 +3,9 @@ package com.example.gamepod
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.await
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -156,3 +159,24 @@ interface API {
     fun getUser(@Path("id") id: Int)
 
 }
+
+object Request{
+
+    private val api = Retrofit.Builder()
+        .baseUrl("gfsdgsd")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(API::class.java)
+
+    suspend fun getAllGames(): ResponseAllGames{
+        return api.getAllGames().await()
+    }
+    suspend fun getTopRealease(): ResponseBestSales {
+        return api.getTopRealease().await()
+    }
+    suspend fun getRanking(): Ranking {
+        return api.getRanking().await()
+    }
+
+}
+
