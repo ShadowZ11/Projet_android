@@ -8,9 +8,11 @@ import android.text.style.UnderlineSpan
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -35,6 +37,17 @@ class Inscription : AppCompatActivity() {
 
 
         val accountExist = findViewById<TextView>(R.id.already_account)
+        val warningEmailField = findViewById<ImageView>(R.id.problem_field_email)
+        val warningUsernameField = findViewById<ImageView>(R.id.problem_field_username)
+        val warningPasswordField = findViewById<ImageView>(R.id.problem_field_password)
+        val warningVPasswordField = findViewById<ImageView>(R.id.problem_field_verify_password)
+
+        warningEmailField.visibility = View.INVISIBLE
+        warningUsernameField.visibility = View.INVISIBLE
+        warningPasswordField.visibility = View.INVISIBLE
+        warningVPasswordField.visibility = View.INVISIBLE
+
+
         val strAccountExist = accountExist.text
         val mSpannableString = SpannableString(strAccountExist)
 
@@ -53,6 +66,8 @@ class Inscription : AppCompatActivity() {
             val password = passwordField.text.toString()
 
             if (TextUtils.isEmpty(email)) {
+                warningEmailField.visibility = View.INVISIBLE
+                emailField.setBackgroundResource(R.drawable.custom_wrong_input_field)
                 Toast.makeText(this, "Enter email address!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
