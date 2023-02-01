@@ -1,25 +1,27 @@
 package com.example.gamepod
 
-import android.net.NetworkRequest
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class DetailsGame : AppCompatActivity() {
 
     var buttonChooseDescription = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -79,6 +81,10 @@ class DetailsGame : AppCompatActivity() {
 
     private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
         view.removeAllViews()
+        var nameGame: String
+        var rateGame: Float
+        var descriptionGame: String
+
 
         GlobalScope.launch(Dispatchers.Main) {
 
@@ -96,6 +102,12 @@ class DetailsGame : AppCompatActivity() {
                     api.getOpinionGame(750, "1")
 
                 }
+
+                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
+
+                nameGame = convertedObject.get("name").asString
+                rateGame = convertedObject.get("votedUp").asFloat
+                descriptionGame = convertedObject.get("description").asString
 
             } catch (e: Exception) {
             }
