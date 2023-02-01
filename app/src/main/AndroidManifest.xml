@@ -32,7 +32,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Inscription"
+            android:name=".inscription.InscriptionActivity"
             android:exported="true"
             android:theme="@style/AccountManageStyle">
             <meta-data
@@ -40,7 +40,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ConnexionActivity"
+            android:name=".connexion.ConnexionActivity"
             android:exported="true"
             android:theme="@style/AccountManageStyle">
             <meta-data

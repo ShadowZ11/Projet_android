@@ -1,3 +1,5 @@
+package com.example.gamepod.connexion
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -9,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import com.example.gamepod.Inscription
 import com.example.gamepod.MainActivity
