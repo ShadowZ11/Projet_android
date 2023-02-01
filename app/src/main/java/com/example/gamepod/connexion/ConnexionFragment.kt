@@ -12,9 +12,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.gamepod.Inscription
 import com.example.gamepod.MainActivity
 import com.example.gamepod.R
+import com.example.gamepod.inscription.InscriptionActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ConnexionFragment : Fragment() {
@@ -69,7 +69,7 @@ class ConnexionFragment : Fragment() {
 
         val createAccount = view.findViewById<Button>(R.id.create_account)
         createAccount.setOnClickListener {
-            val createNewAccount = Intent(activity, Inscription::class.java)
+            val createNewAccount = Intent(activity, InscriptionActivity::class.java)
             startActivity(createNewAccount)
             activity?.finish()
         }
