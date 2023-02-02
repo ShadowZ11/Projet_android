@@ -49,9 +49,6 @@ class MyWishListFragment : Fragment() {
 
         val games: MutableList<GamePreview> = mutableListOf()
 
-        viewDetails.addView(recyclerView)
-        viewDetails.requestLayout()
-
         GlobalScope.launch(Dispatchers.Main) {
 
             try {

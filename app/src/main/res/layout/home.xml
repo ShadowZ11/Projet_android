@@ -44,6 +44,7 @@
                 android:src="@drawable/like"
                 android:layout_weight="0.5"
                 android:id="@+id/to_my_fav"
+                android:layout_gravity="center"
                 android:scaleType="centerInside"
                 />
             <ImageView
@@ -51,6 +52,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/whishlist"
                 android:id="@+id/to_my_wish_list"
+                android:layout_gravity="center"
                 android:layout_weight="0.5"
                 android:scaleType="centerInside"
                 />

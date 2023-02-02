@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -42,6 +43,7 @@ class SearchFragment : Fragment() {
         val games: MutableList<GamePreview> = mutableListOf()
         val clickSearch = view.findViewById<ImageView>(R.id.search_click)
         val quitSearch = view.findViewById<ImageView>(R.id.quit_search)
+        val progress_bar = view.findViewById<ProgressBar>(R.id.progress_circular_home)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.search_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -55,9 +57,10 @@ class SearchFragment : Fragment() {
         val textPrincipal = resultText.text.toString()
 
         val resultSearch = arguments?.getString("game")
+        progress_bar.visibility = View.INVISIBLE
 
         if (resultSearch != null && resultSearch.isNotEmpty()){
-            search(resultSearch, resultText, games, recyclerView)
+            search(resultSearch, resultText, games, recyclerView, progress_bar)
         }
 
         quitSearch.setOnClickListener {
@@ -69,8 +72,7 @@ class SearchFragment : Fragment() {
                 Toast.makeText(context, "La recherche ne peut pas être vide", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            search(editText.text.toString(), resultText, games, recyclerView)
-
+            search(editText.text.toString(), resultText, games, recyclerView, progress_bar)
 /*            GlobalScope.launch(Dispatchers.Main) {
                 games.clear()
                 try {
@@ -111,8 +113,9 @@ class SearchFragment : Fragment() {
         return view
     }
 
-    private fun search(value: String = "", resultText: TextView, games: MutableList<GamePreview>, recyclerView: RecyclerView){
+    private fun search(value: String = "", resultText: TextView, games: MutableList<GamePreview>, recyclerView: RecyclerView, progressBar: ProgressBar){
         GlobalScope.launch(Dispatchers.Main) {
+            progressBar.visibility = View.VISIBLE
             games.clear()
             try {
                 val request = withContext(Dispatchers.IO) {
@@ -131,11 +134,12 @@ class SearchFragment : Fragment() {
                 newStr.append(request.size.toString())
 
                 resultText.text = newStr.toString()
-                //progressBar.visibility = View.INVISIBLE
+                progressBar.visibility = View.INVISIBLE
                 recyclerView.adapter = adapter
             }catch (e: Exception){
                 e.message?.let { it1 -> Log.e("error", it1) }
                 Toast.makeText(context, "Impossible de récupérer les jeux rechercher", Toast.LENGTH_LONG).show()
+                progressBar.visibility = View.INVISIBLE
                 return@launch
             }
 
