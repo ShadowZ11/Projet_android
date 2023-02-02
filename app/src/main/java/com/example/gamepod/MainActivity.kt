@@ -7,6 +7,8 @@ import android.view.Window
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gamepod.myLikes.MyLikesActivity
+import com.example.gamepod.myWishList.MyWishListActivity
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
@@ -34,12 +36,12 @@ class MainActivity : AppCompatActivity() {
         val myWishList = findViewById<ImageView>(R.id.to_my_wish_list)
 
         myLikes.setOnClickListener{
-            val toMyLikes = Intent(this, MyLikes::class.java)
+            val toMyLikes = Intent(this, MyLikesActivity::class.java)
             startActivity(toMyLikes)
         }
 
         myWishList.setOnClickListener {
-            val toMyWishList = Intent(this, MyWishList::class.java)
+            val toMyWishList = Intent(this, MyWishListActivity::class.java)
             startActivity(toMyWishList)
         }
 

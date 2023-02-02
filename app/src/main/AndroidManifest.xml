@@ -13,19 +13,16 @@
         android:theme="@style/Theme.GamePod"
         tools:targetApi="31">
         <activity
-            android:name=".Search"
-            android:exported="false" />
-        <activity
-            android:name=".DetailsGame"
+            android:name=".search.searchActivity"
             android:exported="true" />
         <activity
-            android:name=".MyWishList"
+            android:name=".myWishList.MyWishListActivity"
             android:exported="true" />
         <activity
-            android:name=".MyLikes"
+            android:name=".myLikes.MyLikesActivity"
             android:exported="true" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".forgotPassword.ForgotPasswordActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
