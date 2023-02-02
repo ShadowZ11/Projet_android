@@ -5,7 +5,7 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gamepod.R
 
-class searchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)

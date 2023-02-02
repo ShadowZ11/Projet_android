@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#1a2025"
     android:theme="@style/TextAppearance.GamePod"
-    tools:context=".DetailsGame">
+    tools:context=".gameDetails.GameDetailsActivity">
 
 
     <androidx.constraintlayout.widget.Guideline
