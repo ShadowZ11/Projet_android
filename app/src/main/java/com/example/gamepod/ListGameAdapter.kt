@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gamepod.gameDetails.GameDetailsActivity
 
 class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapter<ListGameAdapter.ViewHolder>() {
 
@@ -17,7 +18,7 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener{
-            val intent = Intent(holder.itemView.context, DetailsGame::class.java)
+            val intent = Intent(holder.itemView.context, GameDetailsActivity::class.java)
             intent.putExtra("game", games[position])
             holder.itemView.context.startActivity(intent)
         }

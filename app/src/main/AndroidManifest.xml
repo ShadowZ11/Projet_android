@@ -16,13 +16,10 @@
             android:name=".Search"
             android:exported="false" />
         <activity
-            android:name=".DetailsGame"
-            android:exported="true" />
-        <activity
             android:name=".MyWishList"
             android:exported="true" />
         <activity
-            android:name=".MyLikes"
+            android:name=".myLikes.MyLikesActivity"
             android:exported="true" />
         <activity
             android:name=".ForgotPassword"
