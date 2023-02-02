@@ -16,7 +16,7 @@
             android:name=".Search"
             android:exported="false" />
         <activity
-            android:name=".MyWishList"
+            android:name=".myWishList.MyWishListActivity"
             android:exported="true" />
         <activity
             android:name=".myLikes.MyLikesActivity"
