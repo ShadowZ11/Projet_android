@@ -61,7 +61,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".GameDetailActivity"
+            android:name=".gameDetails.GameDetailsActivity"
             android:exported="true">
         </activity>
     </application>
