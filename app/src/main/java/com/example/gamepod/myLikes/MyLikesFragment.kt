@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
+import com.example.gamepod.Request
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyLikesFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -34,17 +39,34 @@ class MyLikesFragment : Fragment() {
         if (recyclerView != null) {
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
-        val games = listOf(
-            GamePreview("Game 1", "Description for Game 1", "10", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
-            GamePreview("Game 2", "Description for Game 2", "20", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
-            GamePreview("Game 3", "Description for Game 3", "30", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
-            GamePreview("Game 1", "Description for Game 1", "10", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
-            GamePreview("Game 2", "Description for Game 2", "20", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
-            GamePreview("Game 3", "Description for Game 3", "30", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg")
-        )
-        val adapter = ListGameAdapter(games)
-        if (recyclerView != null) {
-            recyclerView.adapter = adapter
+
+        val games: MutableList<GamePreview> = mutableListOf()
+
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+
+                val request = withContext(Dispatchers.IO){
+                    Request.getLikeList("1")
+                }
+
+                for (obj in request.games){
+                    val game = withContext(Dispatchers.IO){
+                        Request.getGameById(obj.appid)
+                    }
+
+                    games.add(GamePreview(game.name, game.description, game.price.toString()))
+                }
+
+                val adapter = ListGameAdapter(games)
+                if (recyclerView != null) {
+                    recyclerView.adapter = adapter
+                }
+
+            }catch (e: java.lang.Exception){
+
+            }
+
         }
 
         viewDetails.addView(recyclerView)

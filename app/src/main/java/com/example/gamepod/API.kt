@@ -6,9 +6,7 @@ import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 
@@ -150,13 +148,24 @@ import java.util.concurrent.TimeUnit
 
     data class WishList(
         val userId: Int,
-        val games: List<Int>
+        val games: List<IdGames>
     )
 
     data class LikeList(
         val userId: Int,
-        val games: List<Int>
+        val games: List<IdGames>
     )
+
+    data class WishListFragment(
+        val userId: Int,
+        val games: IdGames
+    )
+
+    data class LikeListFragment(
+        val userId: Int,
+        val games: IdGames
+    )
+
 
     //Get Game
     data class getGame(
@@ -166,6 +175,7 @@ import java.util.concurrent.TimeUnit
     data class getUser(
         val id: Int
     )
+
 
 interface API {
 
@@ -178,8 +188,8 @@ interface API {
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
     fun getRanking(): Deferred<Ranking>
 
-    @GET("/getGame/{name}")
-    fun getGameByName(@Path("name") name: String): Deferred<getGame>
+    @GET("/app/gamesFull/gameName/{name}")
+    fun getGameByName(@Path("name") name: String): Deferred<List<Game>>
 
     @GET("/app/gamesFull/steamGameId/{id}")
     fun getGameById(@Path("id") id: Int): Deferred<Game>
@@ -189,6 +199,31 @@ interface API {
 
     @GET("/users/{id}")
     fun getUser(@Path("id") id: Int): Deferred<getUser>
+
+    @GET("app/wishlists/userId/{id}")
+    fun getMyWishList(@Path("id") id: String): Deferred<WishList>
+
+    @GET("app/likelists/userId/{id}")
+    fun getMyLikeList(@Path("id") id: String): Deferred<LikeList>
+
+    @POST("app/wishlists")
+    fun addToWishlist(@Body data: WishListFragment): Deferred<WishListFragment>
+
+    @POST("app/likelists")
+    fun addToLikeList(@Body data: LikeListFragment): Deferred<LikeListFragment>
+
+    @PUT("app/wishlists/userId/{id}")
+    fun updateWishlist(@Body data: WishListFragment, @Path("id") id: String): Deferred<WishListFragment>
+
+    @PUT("app/likelists/userId/{id}")
+    fun updateLikeList(@Body data: LikeListFragment, @Path("id") id: String): Deferred<LikeListFragment>
+
+    @DELETE("app/wishlists/userId/{id}")
+    fun deleteFromWishList(@Path("id") id: String): Deferred<WishListFragment>
+
+    @DELETE("app/likelists/userId/{id}")
+    fun deleteFromLikeList(@Path("id") id: String): Deferred<LikeListFragment>
+
 
 }
 
@@ -239,12 +274,40 @@ object Request{
         return api.getGameById(id).await()
     }
 
-    suspend fun getGameByName(name: String): getGame{
+    suspend fun getGameByName(name: String): List<Game>{
         return api.getGameByName(name).await()
     }
 
     suspend fun getOpinionGame(id: Long, value: String = "1"): Reviews{
         return api.getOpinionGame(id, value).await()
+    }
+
+    suspend fun addToWishList(data: WishListFragment): WishListFragment{
+        return api.addToWishlist(data).await()
+    }
+    suspend fun addToLikeList(data: LikeListFragment): LikeListFragment{
+        return api.addToLikeList(data).await()
+    }
+    suspend fun getLikeList(id: String): LikeList{
+        return api.getMyLikeList(id).await()
+    }
+
+    suspend fun getMyWishList(id: String): WishList{
+        return api.getMyWishList(id).await()
+    }
+
+    suspend fun updateWishList(data: WishListFragment, id: String): WishListFragment{
+        return api.updateWishlist(data, id).await()
+    }
+    suspend fun updateLikeList(data: LikeListFragment, id: String): LikeListFragment{
+        return api.updateLikeList(data, id).await()
+    }
+
+    suspend fun deleteLikeList(id: String): LikeListFragment{
+        return api.deleteFromLikeList(id).await()
+    }
+    suspend fun deleteWishList(id: String): WishListFragment{
+        return api.deleteFromWishList(id).await()
     }
 
 }
