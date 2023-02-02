@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gamepod.R
-import com.example.gamepod.myWishList.MyWishListFragment
 
 class ForgotPasswordFragment : Fragment() {
 
