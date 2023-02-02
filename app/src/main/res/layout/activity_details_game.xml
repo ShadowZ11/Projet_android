@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:id="@+id/game_details_description"
+                android:id="@+id/game_editor_description"
                 android:text="Nom de l'éditeur"/>
 
         </LinearLayout>

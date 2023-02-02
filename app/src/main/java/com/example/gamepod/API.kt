@@ -1,17 +1,18 @@
 package com.example.gamepod
 
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import retrofit2.Call
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.Date
+import java.util.concurrent.TimeUnit
 
-    //class json pour les avis
+
+//class json pour les avis
 /*    data class AuthorReviews(
         val steamid: Int,
         val num_games_owned: Int,
@@ -49,14 +50,21 @@ import java.util.Date
         val total_reviews: Int
     )*/
 
+    data class InfoUserReview(
+        @SerializedName("steamUserId")
+        val idUser: String,
+        @SerializedName("steamUserName")
+        val nameUser: String
+    )
+
     data class Reviews(
         @SerializedName("steamGameId")
         val idGame: Int,
         @SerializedName("steamReviewId")
-        val idReview: Int,
-        val userResume: String,
+        val idReview: String,
+        val steamUserResume: InfoUserReview,
         val description: String,
-        val rating: Float
+        val votedUp: Boolean
     )
 
 
@@ -124,7 +132,11 @@ import java.util.Date
         val description: String,
         val editorName: String,
         val price: Int,
-        val review: List<Reviews>
+        val reviews: List<Reviews>,
+        @SerializedName("logoURL")
+        val logo: String,
+        @SerializedName("iconURL")
+        val icon: String
     )
 
     data class WishList(
@@ -142,36 +154,48 @@ import java.util.Date
         val id: Int
     )
 
+    data class getUser(
+        val id: Int
+    )
+
 interface API {
 
     @GET("/ISteamApps/GetAppList/v2/")
-    fun getAllGames(): Call<ResponseAllGames>
+    fun getAllGames(): Deferred<ResponseAllGames>
 
     @GET("/ISteamChartsService/GetTopReleasesPages/v1/")
-    fun getTopRealease(): Call<ResponseBestSales>
+    fun getTopRealease(): Deferred<ResponseBestSales>
 
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
-    fun getRanking(): Call<Ranking>
+    fun getRanking(): Deferred<Ranking>
 
     @GET("/getGame")
-    fun getGameByName(): Call<getGame>
+    fun getGameByName(): Deferred<getGame>
 
-    @GET("/app/games/steamGameId/{id}")
-    fun getGames(@Query("id") id: String): Call<Game>
+    @GET("/app/gamesFull/steamGameId/{id}")
+    fun getGames(@Path("id") id: String): Deferred<Game>
 
     @GET("/appreviews/{id}")
-    fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Call<Reviews>
+    fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Deferred<Reviews>
 
     @GET("/users/{id}")
-    fun getUser(@Path("id") id: Int)
+    fun getUser(@Path("id") id: Int): Deferred<getUser>
 
 }
 
 object Request{
 
+    private val okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
+        .connectTimeout(60, TimeUnit.MINUTES)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
+        .build()
+
     private val api = Retrofit.Builder()
-        .baseUrl("gfsdgsd")
+        .baseUrl("https://us-central1-androidsteam-b9b14.cloudfunctions.net")
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
         .build()
         .create(API::class.java)
 
@@ -183,6 +207,10 @@ object Request{
     }
     suspend fun getRanking(): Ranking {
         return api.getRanking().await()
+    }
+
+    suspend fun getGames(id: String): Game{
+        return api.getGames(id).await()
     }
 
     suspend fun getGame(): getGame{

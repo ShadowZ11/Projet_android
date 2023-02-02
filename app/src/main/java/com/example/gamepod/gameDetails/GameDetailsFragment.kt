@@ -1,30 +1,31 @@
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
-import com.example.gamepod.connexion.ConnexionFragment
-import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class GameDetailsFragment : Fragment() {
 
     var buttonChooseDescription = true
-
+    private lateinit var progressDialog: AlertDialog
+    private lateinit var logo: String
+    private lateinit var icon: String
+    private var id: Int? = null
+    private lateinit var allReviews: List<Reviews>
     companion object {
         fun newInstance() = GameDetailsFragment()
     }
@@ -35,7 +36,6 @@ class GameDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.activity_details_game, container, false)
-
         val recyclerViewReviews : RecyclerView? = activity?.let { RecyclerView(it) }
         if (recyclerViewReviews != null) {
             recyclerViewReviews.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -47,6 +47,7 @@ class GameDetailsFragment : Fragment() {
             )
         }
 
+        var description: String = "null"
         val viewReviews = view.findViewById<LinearLayout>(R.id.view_group)
 
         val descriptionButton = view.findViewById<TextView>(R.id.description_path)
@@ -61,7 +62,7 @@ class GameDetailsFragment : Fragment() {
             reviewButton.setBackgroundResource(R.drawable.custom_opinion_full)
             descriptionButton.setBackgroundResource(R.drawable.custom_decription)
             if (recyclerViewReviews != null) {
-                loadReviews(viewReviews, recyclerViewReviews)
+                loadReviews(viewReviews, recyclerViewReviews, allReviews)
             }
         }
         descriptionButton.setOnClickListener {
@@ -71,7 +72,7 @@ class GameDetailsFragment : Fragment() {
             buttonChooseDescription = true
             reviewButton.setBackgroundResource(R.drawable.custom_opinion)
             descriptionButton.setBackgroundResource(R.drawable.custom_decription_full)
-            loadDescriptionGame(viewReviews)
+            loadDescriptionGame(viewReviews, description)
         }
 
         val returnButton = view.findViewById<ImageView>(R.id.back_button)
@@ -80,58 +81,79 @@ class GameDetailsFragment : Fragment() {
         }
 
         var nameGame: String = ""
-        var rateGame: Float = 0f
-        var descriptionGame: String = ""
+        var editorGame: String = ""
 
 
         GlobalScope.launch(Dispatchers.Main) {
-
+            progressDialog = AlertDialog.Builder(activity)
+                .setTitle("Chargement de la page de jeu...")
+                .setView(R.layout.progress_dialog)
+                .setCancelable(false)
+                .create()
+            progressDialog.show()
             delay(5000)
 
             try {
                 val request = withContext(Dispatchers.IO) {
-
-                    val api = Retrofit.Builder()
-                        .baseUrl("https://us-central1-androidsteam-b9b14.cloudfunctions.net")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-                        .create(API::class.java)
-
-                    api.getGames("750")
+                    Request.getGames("730")
                 }
 
-                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
+                /* Formaté la classe en json
+                val jsonObject = Gson().toJson(request)
+                val convertedObject = Gson().fromJson(jsonObject, Game::class.java)*/
 
-                nameGame = convertedObject.get("name").asString
+                nameGame = request.name
                 // rateGame = convertedObject.get("votedUp").asFloat
-                descriptionGame = convertedObject.get("description").asString
+                editorGame = request.editorName
+                description = request.description
+                logo = request.logo
+                icon = request.icon
+                id = request.id
+                allReviews = request.reviews
 
             } catch (e: Exception) {
+                print(e.message)
+                e.message?.let { Log.e("erreur", it) }
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
+            progressDialog.dismiss()
 
+            view.findViewById<TextView>(R.id.game_details_title).text = nameGame
+            view.findViewById<TextView>(R.id.game_editor_description).text = editorGame
+            val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, viewReviews, false)
+            descriptionView.findViewById<TextView>(R.id.description_game).text = description
+            viewReviews.addView(descriptionView)
+            viewReviews.requestLayout()
         }
-        view.findViewById<TextView>(R.id.game_details_title).text = nameGame
-        view.findViewById<TextView>(R.id.game_details_description).text = descriptionGame
-
 
         return view
     }
 
-    private fun loadDescriptionGame(view: LinearLayout){
+    private fun loadDescriptionGame(view: LinearLayout, description: String){
 
         view.removeAllViews()
         val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, view, false)
+        descriptionView.findViewById<TextView>(R.id.description_game).text = description
         view.addView(descriptionView)
         view.requestLayout()
 
     }
 
-    private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
+    private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView, allReviews: List<Reviews>){
         view.removeAllViews()
-        val reviews: List<ItemReviewsView> = mutableListOf()
+        val reviews: MutableList<ItemReviewsView> = mutableListOf()
 
+        allReviews.forEach {review ->
+            var random = 0f
+            random = if (review.votedUp){
+                (2.5 + Math.random() * (5f - 2.5f)).toFloat()
+            }else{
+                (0f + Math.random() * (2.4 - 0f)).toFloat()
+            }
+            reviews.add(ItemReviewsView(review.steamUserResume.nameUser, random, review.description))
+        }
 
-        GlobalScope.launch(Dispatchers.Main) {
+/*        GlobalScope.launch(Dispatchers.Main) {
 
             try {
 
@@ -151,10 +173,10 @@ class GameDetailsFragment : Fragment() {
                 Toast.makeText(context, "Erreur récupération api", Toast.LENGTH_SHORT).show()
             }
 
-        }
+        }*/
 
         //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
-        val adapter = AdapterRecyclerViewReviewsDG(reviews)
+        val adapter = AdapterRecyclerViewReviewsDG(reviews.toList())
         recyclerViewReviews.adapter = adapter
         view.addView(recyclerViewReviews)
         view.requestLayout()
