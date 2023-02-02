@@ -12,9 +12,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.gamepod.MainActivity
 import com.example.gamepod.R
 import com.example.gamepod.connexion.ConnexionActivity
-import com.example.gamepod.main.MainActivity
+import com.example.gamepod.connexion.ConnexionFragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
