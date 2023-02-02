@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/final_project_nav"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.gamepod.main.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_myLikesFragment"
+            app:destination="@id/myLikesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_myWishListFragment"
+            app:destination="@id/myWishListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_connexionFragment"
+            app:destination="@id/connexionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myLikesFragment"
+        android:name="com.example.gamepod.myLikes.MyLikesFragment"
+        android:label="MyLikesFragment" >
+        <action
+            android:id="@+id/action_myLikesFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetailsFragment"
+        android:name="GameDetailsFragment"
+        android:label="GameDetailsFragment" />
+    <fragment
+        android:id="@+id/myWishListFragment"
+        android:name="com.example.gamepod.myWishList.MyWishListFragment"
+        android:label="MyWishListFragment" >
+        <action
+            android:id="@+id/action_myWishListFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connexionFragment"
+        android:name="com.example.gamepod.connexion.ConnexionFragment"
+        android:label="ConnexionFragment" >
+        <action
+            android:id="@+id/action_connexionFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_connexionFragment_to_inscriptionFragment"
+            app:destination="@id/inscriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.gamepod.forgotPassword.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" />
+    <fragment
+        android:id="@+id/inscriptionFragment"
+        android:name="InscriptionFragment"
+        android:label="InscriptionFragment" />
+</navigation>
