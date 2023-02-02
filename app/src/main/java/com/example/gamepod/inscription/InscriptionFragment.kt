@@ -7,10 +7,7 @@ import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.gamepod.MainActivity
 import com.example.gamepod.R
@@ -42,6 +39,16 @@ class InscriptionFragment : Fragment() {
         emailField = view.findViewById(R.id.email_field)
         passwordField = view.findViewById(R.id.password_field)
 
+        val warningEmailField = view.findViewById<ImageView>(R.id.problem_field_email)
+        val warningUsernameField = view.findViewById<ImageView>(R.id.problem_field_username)
+        val warningPasswordField = view.findViewById<ImageView>(R.id.problem_field_password)
+        val warningVPasswordField = view.findViewById<ImageView>(R.id.problem_field_verify_password)
+
+        warningEmailField.visibility = View.INVISIBLE
+        warningUsernameField.visibility = View.INVISIBLE
+        warningPasswordField.visibility = View.INVISIBLE
+        warningVPasswordField.visibility = View.INVISIBLE
+
         val accountExist = view.findViewById<TextView>(R.id.already_account)
         val strAccountExist = accountExist.text
         val mSpannableString = SpannableString(strAccountExist)
@@ -60,6 +67,8 @@ class InscriptionFragment : Fragment() {
             val password = passwordField.text.toString()
 
             if (TextUtils.isEmpty(email)) {
+                warningEmailField.visibility = View.INVISIBLE
+                emailField.setBackgroundResource(R.drawable.custom_wrong_input_field)
                 Toast.makeText(context, "Enter email address!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

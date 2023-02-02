@@ -156,8 +156,8 @@ interface API {
     @GET("/getGame")
     fun getGameByName(): Call<getGame>
 
-    @GET("/api/appdetails")
-    fun getGames(@Query("appids") id: String): Call<Game>
+    @GET("/app/games/steamGameId/{id}")
+    fun getGames(@Query("id") id: String): Call<Game>
 
     @GET("/appreviews/{id}")
     fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Call<Reviews>

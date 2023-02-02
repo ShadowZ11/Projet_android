@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
 import com.example.gamepod.connexion.ConnexionFragment
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -89,6 +91,11 @@ class GameDetailsFragment : Fragment() {
     private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
         view.removeAllViews()
 
+        var nameGame: String = ""
+        var rateGame: Float = 0f
+        var descriptionGame: String = ""
+
+
         GlobalScope.launch(Dispatchers.Main) {
 
             delay(5000)
@@ -97,19 +104,27 @@ class GameDetailsFragment : Fragment() {
                 val request = withContext(Dispatchers.IO) {
 
                     val api = Retrofit.Builder()
-                        .baseUrl("gfsdgsd")
+                        .baseUrl("https://us-central1-androidsteam-b9b14.cloudfunctions.net")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                         .create(API::class.java)
 
-                    api.getOpinionGame(750, "1")
-
+                    api.getGames("750")
                 }
+
+                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
+
+                nameGame = convertedObject.get("name").asString
+               // rateGame = convertedObject.get("votedUp").asFloat
+                descriptionGame = convertedObject.get("description").asString
 
             } catch (e: Exception) {
             }
 
         }
+        view.findViewById<TextView>(R.id.game_details_title).text = nameGame
+        view.findViewById<TextView>(R.id.game_details_description).text = descriptionGame
+
         //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
         val reviews = listOf(
             ItemReviewsView("Game 1", 0.9f,"Description for Game 1"),
