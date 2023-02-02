@@ -12,7 +12,7 @@ class GameDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, ******.newInstance()).commit()
+            .replace(R.id.container, GameDetailsFragment.newInstance()).commit()
     }
 
 }

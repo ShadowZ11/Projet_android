@@ -1,8 +1,6 @@
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.gamepod.AdapterRecyclerViewReviewsDG
-import com.example.gamepod.ItemReviewsView
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +10,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gamepod.*
+import com.example.gamepod.connexion.ConnexionFragment
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.gamepod.R
-import com.example.gamepod.API
 
-class DetailsGameFragment : Fragment() {
+class GameDetailsFragment : Fragment() {
 
     var buttonChooseDescription = true
+
+    companion object {
+        fun newInstance() = GameDetailsFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,14 +31,16 @@ class DetailsGameFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.activity_details_game, container, false)
 
-        val recyclerViewReviews = view.findViewById<RecyclerView>(R.id.list_reviews)
-        recyclerViewReviews.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        recyclerViewReviews.itemAnimator = DefaultItemAnimator()
-        recyclerViewReviews.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL)
-        )
+        val recyclerViewReviews : RecyclerView? = activity?.let { RecyclerView(it) }
+        if (recyclerViewReviews != null) {
+            recyclerViewReviews.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            recyclerViewReviews.itemAnimator = DefaultItemAnimator()
+            recyclerViewReviews.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL)
+            )
+        }
 
         val viewReviews = view.findViewById<LinearLayout>(R.id.view_group)
 
@@ -51,7 +55,9 @@ class DetailsGameFragment : Fragment() {
             buttonChooseDescription = false
             reviewButton.setBackgroundResource(R.drawable.custom_opinion_full)
             descriptionButton.setBackgroundResource(R.drawable.custom_decription)
-            loadReviews(viewReviews, recyclerViewReviews)
+            if (recyclerViewReviews != null) {
+                loadReviews(viewReviews, recyclerViewReviews)
+            }
         }
         descriptionButton.setOnClickListener {
             if (buttonChooseDescription){
