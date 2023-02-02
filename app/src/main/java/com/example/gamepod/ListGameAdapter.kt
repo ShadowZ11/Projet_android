@@ -1,6 +1,7 @@
 package com.example.gamepod
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.gameDetails.GameDetailsActivity
+import java.io.IOException
+import java.net.URL
+import java.util.concurrent.Executors
 
 class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapter<ListGameAdapter.ViewHolder>() {
 
@@ -26,6 +30,18 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
         holder.title.text = game.title
         holder.description.text = game.description
         holder.price.text = "Price: " + game.price + "€"
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            try {
+                val url = URL(game.image)
+                val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                holder.picture.post {
+                    holder.picture.setImageBitmap(bitmap)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun getItemCount() = games.size

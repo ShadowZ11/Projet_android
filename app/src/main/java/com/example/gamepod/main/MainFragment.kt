@@ -17,7 +17,6 @@ import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
 import com.example.gamepod.myLikes.MyLikesActivity
-import com.example.gamepod.myLikes.MyLikesFragment
 import com.example.gamepod.myWishList.MyWishListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -77,7 +76,8 @@ class MainFragment : Fragment() {
                             GamePreview(
                                 getGames.name,
                                 getGames.description,
-                                getGames.price.toString()
+                                getGames.price.toString(),
+                                getGames.logo
                             )
                         )
                         valueInt += 1

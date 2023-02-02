@@ -36,12 +36,12 @@ class MyWishListFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
         val games = listOf(
-            GamePreview("Game 1", "Description for Game 1", "10"),
-            GamePreview("Game 2", "Description for Game 2", "20"),
-            GamePreview("Game 3", "Description for Game 3", "30"),
-            GamePreview("Game 1", "Description for Game 1", "10"),
-            GamePreview("Game 2", "Description for Game 2", "20"),
-            GamePreview("Game 3", "Description for Game 3", "30")
+            GamePreview("Game 1", "Description for Game 1", "10", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
+            GamePreview("Game 2", "Description for Game 2", "20", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
+            GamePreview("Game 3", "Description for Game 3", "30", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
+            GamePreview("Game 1", "Description for Game 1", "10", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
+            GamePreview("Game 2", "Description for Game 2", "20", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg"),
+            GamePreview("Game 3", "Description for Game 3", "30", "https://cdn.akamai.steamstatic.com/steam/apps/534380/capsule_184x69.jpg")
         )
 
         viewDetails.addView(recyclerView)
