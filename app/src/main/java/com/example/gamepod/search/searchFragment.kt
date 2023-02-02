@@ -41,6 +41,7 @@ class SearchFragment : Fragment() {
 
         val games: MutableList<GamePreview> = mutableListOf()
         val clickSearch = view.findViewById<ImageView>(R.id.search_click)
+        val quitSearch = view.findViewById<ImageView>(R.id.quit_search)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.search_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -51,8 +52,26 @@ class SearchFragment : Fragment() {
         mSpannableString.setSpan(UnderlineSpan(), 0, mSpannableString.length, 0)
         resultText.text = mSpannableString
 
+        val textPrincipal = resultText.text.toString()
+
+        val resultSearch = arguments?.getString("game")
+
+        if (resultSearch != null && resultSearch.isNotEmpty()){
+            search(resultSearch, resultText, games, recyclerView)
+        }
+
+        quitSearch.setOnClickListener {
+            activity?.finish()
+        }
+
         clickSearch.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+            if (editText.text.isEmpty()){
+                Toast.makeText(context, "La recherche ne peut pas être vide", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            search(editText.text.toString(), resultText, games, recyclerView)
+
+/*            GlobalScope.launch(Dispatchers.Main) {
                 games.clear()
                 try {
                     if (editText.text.isEmpty()){
@@ -86,9 +105,41 @@ class SearchFragment : Fragment() {
                     return@launch
                 }
 
-            }
+            }*/
         }
 
         return view
     }
+
+    private fun search(value: String = "", resultText: TextView, games: MutableList<GamePreview>, recyclerView: RecyclerView){
+        GlobalScope.launch(Dispatchers.Main) {
+            games.clear()
+            try {
+                val request = withContext(Dispatchers.IO) {
+                    Request.getGameByName(value)
+                }
+
+                for (obj in request){
+                    games.add(GamePreview(obj.name, obj.description, obj.price.toString()))
+                }
+                val adapter = ListGameAdapter(games)
+
+                val newStr = java.lang.StringBuilder()
+
+                newStr.append(resultText.text.subSequence(0, 19))
+                newStr.append(" ")
+                newStr.append(request.size.toString())
+
+                resultText.text = newStr.toString()
+                //progressBar.visibility = View.INVISIBLE
+                recyclerView.adapter = adapter
+            }catch (e: Exception){
+                e.message?.let { it1 -> Log.e("error", it1) }
+                Toast.makeText(context, "Impossible de récupérer les jeux rechercher", Toast.LENGTH_LONG).show()
+                return@launch
+            }
+
+        }
+    }
+
 }

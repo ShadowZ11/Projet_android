@@ -188,7 +188,7 @@ interface API {
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
     fun getRanking(): Deferred<Ranking>
 
-    @GET("/getGame/{name}")
+    @GET("/app/gamesFull/gameName/{name}")
     fun getGameByName(@Path("name") name: String): Deferred<List<Game>>
 
     @GET("/app/gamesFull/steamGameId/{id}")

@@ -109,6 +109,7 @@
                         android:textColorHint="#ffffff"
                         android:textColor="#ffffff"
                         android:inputType="text"
+                        android:id="@+id/value_search_gamee"
                         android:textSize="15sp"
                         android:paddingStart="10dp"
                         android:paddingEnd="1dp"
@@ -121,6 +122,7 @@
                         android:layout_weight="8"
                         android:scaleY="0.5"
                         android:scaleX="0.5"
+                        android:id="@+id/search_game"
                         android:src="@drawable/search"
                         />
 
