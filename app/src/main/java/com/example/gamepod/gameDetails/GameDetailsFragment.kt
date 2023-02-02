@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 
 class GameDetailsFragment : Fragment() {
@@ -95,7 +93,7 @@ class GameDetailsFragment : Fragment() {
 
             try {
                 val request = withContext(Dispatchers.IO) {
-                    Request.getGames("730")
+                    Request.getGameById(730)
                 }
 
                 /* Formaté la classe en json
@@ -152,28 +150,6 @@ class GameDetailsFragment : Fragment() {
             }
             reviews.add(ItemReviewsView(review.steamUserResume.nameUser, random, review.description))
         }
-
-/*        GlobalScope.launch(Dispatchers.Main) {
-
-            try {
-
-                val request = withContext(Dispatchers.IO){
-                    Request.getOpinionGame(730)
-                }
-
-                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
-
-                for (obj in convertedObject.asJsonArray){
-                    val objElement = obj.asJsonObject
-                    reviews.toMutableList().add(ItemReviewsView(objElement.get("steamUserResume").asJsonObject.get("steamUserName").asString,
-                        objElement.get("rating").asFloat, objElement.get("description").asString))
-                }
-
-            }catch (e: Exception){
-                Toast.makeText(context, "Erreur récupération api", Toast.LENGTH_SHORT).show()
-            }
-
-        }*/
 
         //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
         val adapter = AdapterRecyclerViewReviewsDG(reviews.toList())

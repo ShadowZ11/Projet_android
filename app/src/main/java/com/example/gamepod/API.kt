@@ -50,6 +50,9 @@ import java.util.concurrent.TimeUnit
         val total_reviews: Int
     )*/
 
+    data class IdGames(
+        val appid: Int
+    )
     data class InfoUserReview(
         @SerializedName("steamUserId")
         val idUser: String,
@@ -98,11 +101,17 @@ import java.util.concurrent.TimeUnit
         val items: List<GamesId>
     )
     data class PagesSales(
-        val pages: List<Items>
+        val pages: List<Page>
+    )
+
+    data class Page(
+        val name: String,
+        @SerializedName("item_ids")
+        val items: List<IdGames>
     )
 
     data class ResponseBestSales(
-        val response: PagesSales
+        val response: PagesSales,
     )
 
     //class all Games
@@ -131,7 +140,7 @@ import java.util.concurrent.TimeUnit
         val name: String,
         val description: String,
         val editorName: String,
-        val price: Int,
+        val price: Float,
         val reviews: List<Reviews>,
         @SerializedName("logoURL")
         val logo: String,
@@ -164,16 +173,16 @@ interface API {
     fun getAllGames(): Deferred<ResponseAllGames>
 
     @GET("/ISteamChartsService/GetTopReleasesPages/v1/")
-    fun getTopRealease(): Deferred<ResponseBestSales>
+    fun getTopRelease(): Deferred<ResponseBestSales>
 
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
     fun getRanking(): Deferred<Ranking>
 
-    @GET("/getGame")
-    fun getGameByName(): Deferred<getGame>
+    @GET("/getGame/{name}")
+    fun getGameByName(@Path("name") name: String): Deferred<getGame>
 
     @GET("/app/gamesFull/steamGameId/{id}")
-    fun getGames(@Path("id") id: String): Deferred<Game>
+    fun getGameById(@Path("id") id: Int): Deferred<Game>
 
     @GET("/appreviews/{id}")
     fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Deferred<Reviews>
@@ -199,22 +208,39 @@ object Request{
         .build()
         .create(API::class.java)
 
+    private val apiSteam = Retrofit.Builder()
+        .baseUrl("https://api.steampowered.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
+        .build()
+        .create(API::class.java)
+
+    private val apiSteamSales = Retrofit.Builder()
+        .baseUrl("https://steamcommunity.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
+        .build()
+        .create(API::class.java)
+
+
     suspend fun getAllGames(): ResponseAllGames{
-        return api.getAllGames().await()
+        return apiSteam.getAllGames().await()
     }
-    suspend fun getTopRealease(): ResponseBestSales {
-        return api.getTopRealease().await()
+    suspend fun getTopRelease(): ResponseBestSales {
+        return apiSteam.getTopRelease().await()
     }
     suspend fun getRanking(): Ranking {
-        return api.getRanking().await()
+        return apiSteam.getRanking().await()
     }
 
-    suspend fun getGames(id: String): Game{
-        return api.getGames(id).await()
+    suspend fun getGameById(id: Int): Game{
+        return api.getGameById(id).await()
     }
 
-    suspend fun getGame(): getGame{
-        return api.getGameByName().await()
+    suspend fun getGameByName(name: String): getGame{
+        return api.getGameByName(name).await()
     }
 
     suspend fun getOpinionGame(id: Long, value: String = "1"): Reviews{

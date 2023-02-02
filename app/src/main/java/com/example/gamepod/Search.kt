@@ -9,8 +9,6 @@ import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class Search : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +29,7 @@ class Search : AppCompatActivity() {
 
             try {
                 val request = withContext(Dispatchers.IO) {
-                    Request.getGame()
+                    //Request.getGameByName()
                 }
 
                 val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
