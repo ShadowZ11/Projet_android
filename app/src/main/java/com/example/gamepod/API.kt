@@ -137,6 +137,10 @@ import java.util.Date
         val games: List<Int>
     )
 
+    //Get Game
+    data class getGame(
+        val id: Int
+    )
 
 interface API {
 
@@ -147,7 +151,10 @@ interface API {
     fun getTopRealease(): Call<ResponseBestSales>
 
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
-    fun getRanking() : Call<Ranking>
+    fun getRanking(): Call<Ranking>
+
+    @GET("/getGame")
+    fun getGameByName(): Call<getGame>
 
     @GET("/api/appdetails")
     fun getGames(@Query("appids") id: String): Call<Game>
@@ -176,6 +183,10 @@ object Request{
     }
     suspend fun getRanking(): Ranking {
         return api.getRanking().await()
+    }
+
+    suspend fun getGame(): getGame{
+        return api.getGameByName().await()
     }
 
 }

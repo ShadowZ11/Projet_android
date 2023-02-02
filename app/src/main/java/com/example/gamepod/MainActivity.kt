@@ -7,6 +7,9 @@ import android.view.Window
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,21 @@ class MainActivity : AppCompatActivity() {
             startActivity(toMyWishList)
         }
 
+        GlobalScope.launch(Dispatchers.Main) {
+
+            delay(5000)
+
+            try {
+                val request = withContext(Dispatchers.IO) {
+                    Request.getGame()
+                }
+
+                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
+
+            } catch (e: Exception) {
+            }
+
+        }
 
     }
 
