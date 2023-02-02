@@ -71,8 +71,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         games.add(GamePreview(getGames.name, getGames.description, getGames.price.toString()))
                         valueInt += 1
-                    }catch (e: Exception){
-                        Toast.makeText(this@MainActivity, "Impossible de récupérer les infos du jeu: " + ids.appid.toString(), Toast.LENGTH_SHORT).show()
+                    }catch (_: Exception){
                     }
                 }
                 //val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)

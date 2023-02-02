@@ -83,6 +83,7 @@ class SearchFragment : Fragment() {
                 }catch (e: Exception){
                     e.message?.let { it1 -> Log.e("error", it1) }
                     Toast.makeText(context, "Impossible de récupérer les jeux rechercher", Toast.LENGTH_LONG).show()
+                    return@launch
                 }
 
             }

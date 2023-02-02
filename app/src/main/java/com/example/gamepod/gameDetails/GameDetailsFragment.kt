@@ -51,6 +51,18 @@ class GameDetailsFragment : Fragment() {
         val descriptionButton = view.findViewById<TextView>(R.id.description_path)
         descriptionButton.setBackgroundResource(R.drawable.custom_decription_full)
         val reviewButton = view.findViewById<TextView>(R.id.reviews_path)
+        val like_button = view.findViewById<ImageView>(R.id.to_my_fav)
+        val wishList_button = view.findViewById<ImageView>(R.id.to_my_wish_list)
+
+        like_button.setOnClickListener {
+            id?.let { it1 -> addToFavorite(it1, 1) }
+            like_button.setBackgroundResource(R.drawable.like_full)
+        }
+
+        wishList_button.setOnClickListener {
+            id?.let { it1 -> addToWishList(it1, 1) }
+            like_button.setBackgroundResource(R.drawable.whishlist_full)
+        }
 
         reviewButton.setOnClickListener{
             if (!buttonChooseDescription){
@@ -96,12 +108,11 @@ class GameDetailsFragment : Fragment() {
                     Request.getGameById(730)
                 }
 
-                /* Formaté la classe en json
+                /* Formater la classe en json
                 val jsonObject = Gson().toJson(request)
                 val convertedObject = Gson().fromJson(jsonObject, Game::class.java)*/
 
                 nameGame = request.name
-                // rateGame = convertedObject.get("votedUp").asFloat
                 editorGame = request.editorName
                 description = request.description
                 logo = request.logo
@@ -156,6 +167,41 @@ class GameDetailsFragment : Fragment() {
         recyclerViewReviews.adapter = adapter
         view.addView(recyclerViewReviews)
         view.requestLayout()
+    }
+
+
+    private fun addToWishList(id: Int, idUser: Int){
+
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+
+                val request = withContext(Dispatchers.IO){
+                    Request.addToWishList(WishListFragment(idUser, IdGames(id)))
+                }
+
+            }catch (e: java.lang.Exception){
+
+                Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+
+    }
+    private fun addToFavorite(id: Int, idUser: Int){
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+                val request = withContext(Dispatchers.IO){
+                    Request.addToLikeList(LikeListFragment(idUser, IdGames(id)))
+                }
+            }catch (e: java.lang.Exception){
+
+                Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 
 }
