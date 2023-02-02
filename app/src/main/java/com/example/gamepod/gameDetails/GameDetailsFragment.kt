@@ -50,6 +50,7 @@ class GameDetailsFragment : Fragment() {
             Toast.makeText(context, "Erreur du jeu", Toast.LENGTH_LONG).show()
             activity?.finish()
         }
+        id = idGame
 
         var description: String = "null"
         val viewReviews = view.findViewById<LinearLayout>(R.id.view_group)
@@ -185,7 +186,7 @@ class GameDetailsFragment : Fragment() {
 
             try {
 
-                val request = withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO){
                     Request.addToWishList(WishListFragment(idUser, IdGames(id)))
                 }
 
@@ -202,12 +203,13 @@ class GameDetailsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
-                val request = withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO){
                     Request.addToLikeList(LikeListFragment(idUser, IdGames(id)))
                 }
+
             }catch (e: java.lang.Exception){
 
-                Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Impossible d'ajouter à la likeList", Toast.LENGTH_SHORT).show()
 
             }
         }
