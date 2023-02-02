@@ -45,6 +45,12 @@ class GameDetailsFragment : Fragment() {
             )
         }
 
+        val idGame = arguments?.getInt("idGame")
+        if (idGame == 0) {
+            Toast.makeText(context, "Erreur du jeu", Toast.LENGTH_LONG).show()
+            activity?.finish()
+        }
+
         var description: String = "null"
         val viewReviews = view.findViewById<LinearLayout>(R.id.view_group)
 
@@ -101,11 +107,14 @@ class GameDetailsFragment : Fragment() {
                 .setCancelable(false)
                 .create()
             progressDialog.show()
-            delay(5000)
+            //delay(5000)
 
             try {
+                if (idGame == null){
+                    return@launch
+                }
                 val request = withContext(Dispatchers.IO) {
-                    Request.getGameById(730)
+                    Request.getGameById(idGame)
                 }
 
                 /* Formater la classe en json

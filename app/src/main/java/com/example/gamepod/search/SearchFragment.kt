@@ -123,7 +123,7 @@ class SearchFragment : Fragment() {
                 }
 
                 for (obj in request){
-                    games.add(GamePreview(obj.name, obj.description, obj.price.toString()))
+                    games.add(GamePreview(obj.id, obj.name, obj.description, obj.price.toString(), obj.logo))
                 }
                 val adapter = ListGameAdapter(games)
 

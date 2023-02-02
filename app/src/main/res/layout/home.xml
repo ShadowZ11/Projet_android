@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="#1a2025"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

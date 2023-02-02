@@ -62,7 +62,7 @@ class MyWishListFragment : Fragment() {
                         Request.getGameById(obj.appid)
                     }
 
-                    games.add(GamePreview(game.name, game.description, game.price.toString()))
+                    games.add(GamePreview(game.id, game.name, game.description, game.price.toString(), game.icon))
                 }
 
                 val adapter = ListGameAdapter(games)

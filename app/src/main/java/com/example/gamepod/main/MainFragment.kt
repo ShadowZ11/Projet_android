@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -18,6 +19,8 @@ import com.example.gamepod.R
 import com.example.gamepod.Request
 import com.example.gamepod.myLikes.MyLikesActivity
 import com.example.gamepod.myWishList.MyWishListActivity
+import com.example.gamepod.search.SearchActivity
+import com.example.gamepod.search.SearchFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,7 +47,8 @@ class MainFragment : Fragment() {
         val myLikes = view.findViewById<ImageView>(R.id.to_my_fav)
         val myWishList = view.findViewById<ImageView>(R.id.to_my_wish_list)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_home)
-
+        val search_game = view.findViewById<ImageView>(R.id.search_game)
+        val edit_search = view.findViewById<EditText>(R.id.value_search_gamee)
         myLikes.setOnClickListener {
             val toMyLikes = Intent(activity, MyLikesActivity::class.java)
             startActivity(toMyLikes)
@@ -55,6 +59,30 @@ class MainFragment : Fragment() {
             startActivity(toMyWishList)
         }
 
+        search_game.setOnClickListener {
+
+            try {
+
+                val i = Intent(activity, SearchActivity::class.java)
+                i.putExtra("game", edit_search.text.toString())
+                startActivity(i)
+
+/*                val nextFragment = SearchFragment()
+                val bundle = Bundle()
+                bundle.putString("game", edit_search.text.toString())
+                nextFragment.arguments = bundle
+
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.container, nextFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()*/
+            }catch (e: Exception){
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
@@ -63,42 +91,27 @@ class MainFragment : Fragment() {
                 }
                 val obj = request.response.pages[0]
                 var valueInt = 0
-                for (ids in obj.items) {
-                    if (valueInt > 10) {
+                for (ids in obj.items){
+                    if (valueInt > 10){
                         break
                     }
                     try {
                         Log.v("id", ids.toString())
-                        val getGames = withContext(Dispatchers.IO) {
+                        val getGames = withContext(Dispatchers.IO){
                             Request.getGameById(ids.appid)
                         }
-                        games.add(
-                            GamePreview(
-                                getGames.name,
-                                getGames.description,
-                                getGames.price.toString(),
-                                getGames.logo
-                            )
-                        )
+                        games.add(GamePreview(getGames.id, getGames.name, getGames.description, getGames.price.toString(), getGames.logo))
                         valueInt += 1
-                    } catch (e: Exception) {
-                        Toast.makeText(
-                            activity as MainActivity,
-                            "Impossible de récupérer les infos du jeu: " + ids.appid.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    }catch (_: Exception){
                     }
                 }
+                //val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
                 val adapter = ListGameAdapter(games)
                 progressBar.visibility = View.INVISIBLE
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
-                Toast.makeText(
-                    activity as MainActivity,
-                    "Impossible de récupérer les top jeux, veuillez réessayer",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, "Impossible de récupérer les top jeux, veuillez réessayer", Toast.LENGTH_LONG).show()
                 e.message?.let { Log.e("Erreur requête", it) }
             }
 
