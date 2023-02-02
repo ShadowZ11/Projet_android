@@ -7,6 +7,7 @@ import android.view.Window
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gamepod.myLikes.MyLikesActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val myWishList = findViewById<ImageView>(R.id.to_my_wish_list)
 
         myLikes.setOnClickListener{
-            val toMyLikes = Intent(this, MyLikes::class.java)
+            val toMyLikes = Intent(this, MyLikesActivity::class.java)
             startActivity(toMyLikes)
         }
 
