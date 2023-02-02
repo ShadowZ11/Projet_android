@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
 import com.example.gamepod.connexion.ConnexionFragment
+import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
@@ -76,21 +79,6 @@ class GameDetailsFragment : Fragment() {
             requireActivity().finish()
         }
 
-        return view
-    }
-
-    private fun loadDescriptionGame(view: LinearLayout){
-
-        view.removeAllViews()
-        val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, view, false)
-        view.addView(descriptionView)
-        view.requestLayout()
-
-    }
-
-    private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
-        view.removeAllViews()
-
         var nameGame: String = ""
         var rateGame: Float = 0f
         var descriptionGame: String = ""
@@ -115,7 +103,7 @@ class GameDetailsFragment : Fragment() {
                 val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
 
                 nameGame = convertedObject.get("name").asString
-               // rateGame = convertedObject.get("votedUp").asFloat
+                // rateGame = convertedObject.get("votedUp").asFloat
                 descriptionGame = convertedObject.get("description").asString
 
             } catch (e: Exception) {
@@ -125,15 +113,47 @@ class GameDetailsFragment : Fragment() {
         view.findViewById<TextView>(R.id.game_details_title).text = nameGame
         view.findViewById<TextView>(R.id.game_details_description).text = descriptionGame
 
+
+        return view
+    }
+
+    private fun loadDescriptionGame(view: LinearLayout){
+
+        view.removeAllViews()
+        val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, view, false)
+        view.addView(descriptionView)
+        view.requestLayout()
+
+    }
+
+    private fun loadReviews(view: LinearLayout, recyclerViewReviews: RecyclerView){
+        view.removeAllViews()
+        val reviews: List<ItemReviewsView> = mutableListOf()
+
+
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+
+                val request = withContext(Dispatchers.IO){
+                    Request.getOpinionGame(730)
+                }
+
+                val convertedObject: JsonObject = Gson().fromJson(request.toString(), JsonObject::class.java)
+
+                for (obj in convertedObject.asJsonArray){
+                    val objElement = obj.asJsonObject
+                    reviews.toMutableList().add(ItemReviewsView(objElement.get("steamUserResume").asJsonObject.get("steamUserName").asString,
+                        objElement.get("rating").asFloat, objElement.get("description").asString))
+                }
+
+            }catch (e: Exception){
+                Toast.makeText(context, "Erreur récupération api", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
         //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
-        val reviews = listOf(
-            ItemReviewsView("Game 1", 0.9f,"Description for Game 1"),
-            ItemReviewsView("Game 2", 5f,"Description for Game 2"),
-            ItemReviewsView("Game 3", 2f,"Description for Game 3"),
-            ItemReviewsView("Game 1", 2.04f,"Description for Game 1"),
-            ItemReviewsView("Game 2", 1.6f,"Description for Game 2"),
-            ItemReviewsView("Game 3", 3f,"Description for Game 3")
-        )
         val adapter = AdapterRecyclerViewReviewsDG(reviews)
         recyclerViewReviews.adapter = adapter
         view.addView(recyclerViewReviews)

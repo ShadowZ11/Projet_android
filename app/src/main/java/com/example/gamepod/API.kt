@@ -189,5 +189,9 @@ object Request{
         return api.getGameByName().await()
     }
 
+    suspend fun getOpinionGame(id: Long, value: String = "1"): Reviews{
+        return api.getOpinionGame(id, value).await()
+    }
+
 }
 
