@@ -31,6 +31,11 @@ class MyWishListFragment : Fragment() {
         val view = inflater.inflate(R.layout.activity_my_wish_list, container, false)
         val viewDetails = view.findViewById<LinearLayout>(R.id.myWishListContent)
         val recyclerView : RecyclerView? = activity?.let { RecyclerView(it) }
+        val quitFavorite = view.findViewById<ImageView>(R.id.quit_wishlist)
+
+        quitFavorite.setOnClickListener {
+            
+        }
 
         if (recyclerView != null) {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
