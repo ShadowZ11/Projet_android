@@ -104,7 +104,7 @@ class GameDetailsFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             progressDialog = AlertDialog.Builder(activity)
                 .setTitle("Chargement de la page de jeu...")
-                .setView(R.layout.progress_dialog)
+                .setView(R.layout.progress_dialog_loading_general)
                 .setCancelable(false)
                 .create()
             progressDialog.show()

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -17,6 +18,7 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
+import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.example.gamepod.myLikes.MyLikesActivity
 import com.example.gamepod.myWishList.MyWishListActivity
 import com.example.gamepod.search.SearchActivity
@@ -48,7 +50,15 @@ class MainFragment : Fragment() {
         val myWishList = view.findViewById<ImageView>(R.id.to_my_wish_list)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_home)
         val search_game = view.findViewById<ImageView>(R.id.search_game)
-        val edit_search = view.findViewById<EditText>(R.id.value_search_gamee)
+        val edit_search = view.findViewById<EditText>(R.id.value_search_game)
+        val showMore = view.findViewById<Button>(R.id.show_more_game)
+
+        showMore.setOnClickListener{
+            val intent = Intent(activity, GameDetailsActivity::class.java)
+            intent.putExtra("idGame", 1811260)
+            startActivity(intent)
+        }
+
         myLikes.setOnClickListener {
             val toMyLikes = Intent(activity, MyLikesActivity::class.java)
             startActivity(toMyLikes)
