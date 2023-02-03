@@ -20,7 +20,7 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
-import com.example.gamepod.connexion.connect
+import com.example.gamepod.connexion.Connect
 import com.example.gamepod.myWishList.MyWishListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -57,7 +57,7 @@ class MyLikesFragment : Fragment() {
             try {
                 progressBar.visibility = View.VISIBLE
                 val request = withContext(Dispatchers.IO){
-                    Request.getLikeList(connect.userId)
+                    Request.getLikeList(Connect.userId)
                 }
 
                 for (obj in request.games){

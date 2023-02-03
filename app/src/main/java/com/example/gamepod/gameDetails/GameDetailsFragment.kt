@@ -213,7 +213,7 @@ class GameDetailsFragment : Fragment() {
                 try {
                     e.message?.let { Log.e("erreur 1", it) }
                     withContext(Dispatchers.IO){
-                        Request.addToWishList(WishListFragment(connect.userId, IdGames(id)))
+                        Request.addToWishList(WishListFragment(Connect.userId, IdGames(id)))
                     }
                     image.setBackgroundResource(R.drawable.whishlist_full)
                     image.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -239,7 +239,7 @@ class GameDetailsFragment : Fragment() {
             }catch (e: java.lang.Exception){
                 try {
                     withContext(Dispatchers.IO){
-                        Request.addToLikeList(LikeListFragment(connect.userId, IdGames(id)))
+                        Request.addToLikeList(LikeListFragment(Connect.userId, IdGames(id)))
                     }
 
                     image.setBackgroundResource(R.drawable.like_full)
@@ -258,7 +258,7 @@ class GameDetailsFragment : Fragment() {
 
             try {
                 withContext(Dispatchers.IO){
-                    Request.deleteWishList(connect.userId, id.toString())
+                    Request.deleteWishList(Connect.userId, id.toString())
                 }
                 image.setBackgroundResource(R.drawable.like)
                 image.scaleType = ImageView.ScaleType.CENTER_INSIDE
