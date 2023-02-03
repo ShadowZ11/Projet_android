@@ -161,13 +161,13 @@ import java.util.concurrent.TimeUnit
     data class WishListFragment(
         val userId: String,
         @SerializedName("gamesResumeId")
-        val games: IdGames
+        val games: List<String>
     )
 
     data class LikeListFragment(
         val userId: String,
         @SerializedName("gamesResumeId")
-        val games: IdGames
+        val games: List<String>
     )
 
     data class ResponseAPISuccess(
