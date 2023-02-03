@@ -1,4 +1,6 @@
 import android.app.AlertDialog
+import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -169,13 +171,27 @@ class GameDetailsFragment : Fragment() {
             reviews.add(ItemReviewsView(review.steamUserResume.nameUser, random, review.description))
         }
 
-        //val reviewsView: View = layoutInflater.inflate(R.layout.reviews_details_game, view, false)
         val adapter = AdapterRecyclerViewReviewsDG(reviews.toList())
         recyclerViewReviews.adapter = adapter
         view.addView(recyclerViewReviews)
         view.requestLayout()
+        recyclerViewReviews.addItemDecoration(
+            object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    super.getItemOffsets(outRect, view, parent, state)
+                    outRect.bottom = 12.dpToPx()
+                }
+            }
+        )
+
     }
 
+    fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     private fun addToWishList(id: Int, idUser: Int){
 
