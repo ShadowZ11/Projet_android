@@ -1,5 +1,7 @@
 package com.example.gamepod
 
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,10 @@ class ViewHolderRecyclerReview(view: View): RecyclerView.ViewHolder(view){
 
 
     fun bindValue(userName: String, rating_value: Float, reviewDescription: String){
-        this.userName.text = userName
+        val strResultText = userName
+        val mSpannableString = SpannableString(strResultText)
+        mSpannableString.setSpan(UnderlineSpan(), 0, mSpannableString.length, 0)
+        this.userName.text = mSpannableString
         this.rating.rating = rating_value
         this.reviewDescription.text = reviewDescription
     }
