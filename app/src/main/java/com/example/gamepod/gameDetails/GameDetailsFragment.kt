@@ -1,4 +1,5 @@
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
-import com.example.gamepod.connexion.connect
+import com.example.gamepod.connexion.Connect
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 
@@ -202,7 +203,7 @@ class GameDetailsFragment : Fragment() {
             try {
 
                 val request = withContext(Dispatchers.IO){
-                    Request.updateWishList(connect.userId, id.toString())
+                    Request.updateWishList(Connect.userId, id.toString())
                 }
                 Log.v("ok", request.toString())
                 image.setBackgroundResource(R.drawable.whishlist_full)
@@ -230,7 +231,7 @@ class GameDetailsFragment : Fragment() {
 
             try {
                 withContext(Dispatchers.IO){
-                    Request.updateLikeList(connect.userId, id.toString())
+                    Request.updateLikeList(Connect.userId, id.toString())
                 }
                 image.setBackgroundResource(R.drawable.like_full)
                 image.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -258,7 +259,6 @@ class GameDetailsFragment : Fragment() {
             try {
                 withContext(Dispatchers.IO){
                     Request.deleteWishList(connect.userId, id.toString())
-
                 }
                 image.setBackgroundResource(R.drawable.like)
                 image.scaleType = ImageView.ScaleType.CENTER_INSIDE
@@ -276,7 +276,7 @@ class GameDetailsFragment : Fragment() {
 
             try {
                 withContext(Dispatchers.IO){
-                    Request.deleteLikeList(connect.userId, id.toString())
+                    Request.deleteLikeList(Connect.userId, id.toString())
                 }
                 image.setBackgroundResource(R.drawable.like)
                 image.scaleType = ImageView.ScaleType.CENTER_INSIDE
