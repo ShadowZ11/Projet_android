@@ -2,10 +2,8 @@ package com.example.gamepod.connexion
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +20,9 @@ import com.example.gamepod.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Timer
-import java.util.TimerTask
 import kotlin.concurrent.timerTask
 
-class connect{
+class Connect{
     companion object{
         @JvmStatic lateinit var uuidUser: String
         @JvmStatic lateinit var email: String
@@ -77,8 +74,8 @@ class ConnexionFragment : Fragment() {
                         val collectionReference = db.collection("users")
                         val user = auth.currentUser
                         if (user != null) {
-                            connect.uuidUser = user.uid
-                            connect.email = user.email.toString()
+                            Connect.uuidUser = user.uid
+                            Connect.email = user.email.toString()
                         }else{
                             Toast.makeText(requireContext(), "Echec de la connexion",
                                 Toast.LENGTH_SHORT).show()
@@ -86,9 +83,9 @@ class ConnexionFragment : Fragment() {
                         }
                         collectionReference.get().addOnSuccessListener { result ->
                             for (document in result) {
-                                if (connect.uuidUser == document.data["userId"]){
-                                    connect.userId = document.data["userId"].toString()
-                                    connect.username = document.data["username"].toString()
+                                if (Connect.uuidUser == document.data["userId"]){
+                                    Connect.userId = document.data["userId"].toString()
+                                    Connect.username = document.data["username"].toString()
                                     break
                                 }
                             }

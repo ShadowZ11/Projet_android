@@ -21,8 +21,7 @@ import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
 import com.example.gamepod.connexion.ConnexionActivity
-import com.example.gamepod.connexion.ConnexionFragment
-import com.example.gamepod.connexion.connect
+import com.example.gamepod.connexion.Connect
 import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.example.gamepod.myLikes.MyLikesActivity
 import com.example.gamepod.myWishList.MyWishListActivity
@@ -76,10 +75,10 @@ class MainFragment : Fragment() {
 
         disconnectButton.setOnClickListener {
 
-            connect.uuidUser = ""
-            connect.email = ""
-            connect.username = ""
-            connect.userId = ""
+            Connect.uuidUser = ""
+            Connect.email = ""
+            Connect.username = ""
+            Connect.userId = ""
 
             val intent = Intent(activity, ConnexionActivity::class.java)
             startActivity(intent)
