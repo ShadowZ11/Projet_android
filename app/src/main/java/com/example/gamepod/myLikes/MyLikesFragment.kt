@@ -15,6 +15,7 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
+import com.example.gamepod.myWishList.MyWishListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -55,7 +56,11 @@ class MyLikesFragment : Fragment() {
                         Request.getGameById(obj.appid)
                     }
 
-                    games.add(GamePreview(game.name, game.description, game.price.toString()))
+                    games.add(GamePreview(game.id, game.name, game.description, game.price.toString(), game.logo))
+                }
+
+                if (request.games.isEmpty()){
+
                 }
 
                 val adapter = ListGameAdapter(games)
@@ -63,8 +68,7 @@ class MyLikesFragment : Fragment() {
                     recyclerView.adapter = adapter
                 }
 
-            }catch (e: java.lang.Exception){
-
+            }catch (_: java.lang.Exception){
             }
 
         }

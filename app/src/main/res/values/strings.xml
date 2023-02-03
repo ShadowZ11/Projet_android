@@ -27,4 +27,5 @@
     <string name="Reviews">Reviews</string>
     <string name="search_header">Search</string>
     <string name="result_search">Number of results :</string>
+    <string name="loading">Loading</string>
 </resources>

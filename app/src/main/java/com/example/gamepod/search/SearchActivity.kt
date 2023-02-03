@@ -11,8 +11,12 @@ class SearchActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container)
+        val nextFragment = SearchFragment()
+        val bundle = Bundle()
+        bundle.putString("game", intent.getStringExtra("game"))
+        nextFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, SearchFragment.newInstance()).commit()
+            .replace(R.id.container, nextFragment).commit()
     }
 
 }

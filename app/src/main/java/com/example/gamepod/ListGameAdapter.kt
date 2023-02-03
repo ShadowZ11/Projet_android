@@ -24,6 +24,7 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, GameDetailsActivity::class.java)
             intent.putExtra("game", games[position])
+            intent.putExtra("idGame", games[position].idGame)
             holder.itemView.context.startActivity(intent)
         }
         val game = games[position]
