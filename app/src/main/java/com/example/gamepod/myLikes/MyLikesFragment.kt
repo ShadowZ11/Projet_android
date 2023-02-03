@@ -62,14 +62,10 @@ class MyLikesFragment : Fragment() {
 
                 for (obj in request.games){
                     val game = withContext(Dispatchers.IO){
-                        Request.getGameById(obj.appid)
+                        Request.getGameById(obj.toInt())
                     }
 
                     games.add(GamePreview(game.id, game.name, game.description, game.price.toString(), game.logo))
-                }
-
-                if (request.games.isEmpty()){
-
                 }
 
                 val adapter = ListGameAdapter(games)

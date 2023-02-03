@@ -70,7 +70,9 @@ class MyWishListFragment : Fragment() {
                 Log.d("bizarre", request.toString())
                 for (obj in request.games){
                     val game = withContext(Dispatchers.IO){
-                        Request.getGameById(obj.appid)
+                        Log.d("test", obj)
+                        val valueInt: Int = obj.toInt()
+                        Request.getGameById(valueInt)
                     }
 
                     games.add(GamePreview(game.id, game.name, game.description, game.price.toString(), game.icon))
