@@ -82,6 +82,7 @@
         android:gravity="center"
         android:textColor="#ffffff"
         android:textSize="20sp"
+        android:id="@+id/empty_list_text"
         app:layout_constraintTop_toBottomOf="@id/empty_list_image"
         app:layout_constraintStart_toStartOf="@id/begin_text"
         app:layout_constraintEnd_toEndOf="@id/end_text"
@@ -97,6 +98,32 @@
         android:orientation="vertical">
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        android:id="@+id/mid_part"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        android:id="@+id/bottom_part"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_part"
+        android:indeterminate="true"
+        app:layout_constraintStart_toStartOf="@+id/mid_part"
+        app:layout_constraintEnd_toEndOf="@+id/mid_part"
+        android:id="@+id/progress_circular_load"
+        android:indeterminateDrawable="@drawable/progress_bar_custom"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

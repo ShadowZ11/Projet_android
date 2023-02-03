@@ -147,25 +147,32 @@ import java.util.concurrent.TimeUnit
     )
 
     data class WishList(
-        val userId: Int,
+        val userId: String,
+        @SerializedName("gamesResumeId")
         val games: List<IdGames>
     )
 
     data class LikeList(
-        val userId: Int,
+        val userId: String,
+        @SerializedName("gamesResumeId")
         val games: List<IdGames>
     )
 
     data class WishListFragment(
-        val userId: Int,
+        val userId: String,
+        @SerializedName("gamesResumeId")
         val games: IdGames
     )
 
     data class LikeListFragment(
-        val userId: Int,
+        val userId: String,
+        @SerializedName("gamesResumeId")
         val games: IdGames
     )
 
+    data class ResponseAPISuccess(
+        val message: String
+    )
 
     //Get Game
     data class getGame(
@@ -197,32 +204,32 @@ interface API {
     @GET("/appreviews/{id}")
     fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Deferred<Reviews>
 
-    @GET("/users/{id}")
+    @GET("/app/users/userId/{id}")
     fun getUser(@Path("id") id: Int): Deferred<getUser>
 
-    @GET("/app/wishlists/userId/{id}")
-    fun getMyWishList(@Path("id") id: String): Deferred<WishList>
+    @GET("/app/wishlists/userId/{userId}")
+    fun getMyWishList(@Path("userId") id: String): Deferred<WishList>
 
-    @GET("/app/likelists/userId/{id}")
-    fun getMyLikeList(@Path("id") id: String): Deferred<LikeList>
+    @GET("/app/likelists/userId/{userId}")
+    fun getMyLikeList(@Path("userId") id: String): Deferred<LikeList>
 
     @POST("/app/wishlists")
-    fun addToWishlist(@Body data: WishListFragment): Deferred<WishListFragment>
+    fun addToWishlist(@Body data: WishListFragment): Deferred<ResponseAPISuccess>
 
     @POST("/app/likelists")
-    fun addToLikeList(@Body data: LikeListFragment): Deferred<LikeListFragment>
+    fun addToLikeList(@Body data: LikeListFragment): Deferred<ResponseAPISuccess>
 
-    @PUT("/app/wishlists/userId/{userId}/delete/gameResumeId/{gameId}")
-    fun updateWishlist(@Path("userId") data: String, @Path("gameId") id: String): Deferred<WishListFragment>
+    @PUT("/app/wishlists/userId/{userId}/add/gameResumeId/{gameId}")
+    fun updateWishlist(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
 
-    @PUT("/app/likelists/userId/{id}")
-    fun updateLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<LikeListFragment>
+    @PUT("/app/likelists/userId/{userId}/add/gameResumeId/{gameId}")
+    fun updateLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
 
     @DELETE("/app/wishlists/userId/{userId}/delete/gameResumeId/{gameId}")
-    fun deleteFromWishList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<WishListFragment>
+    fun deleteFromWishList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
 
     @DELETE("/app/likelists/userId/{userId}/delete/gameResumeId/{gameId}")
-    fun deleteFromLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<LikeListFragment>
+    fun deleteFromLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
 
 
 }
@@ -282,10 +289,10 @@ object Request{
         return api.getOpinionGame(id, value).await()
     }
 
-    suspend fun addToWishList(data: WishListFragment): WishListFragment{
+    suspend fun addToWishList(data: WishListFragment): ResponseAPISuccess{
         return api.addToWishlist(data).await()
     }
-    suspend fun addToLikeList(data: LikeListFragment): LikeListFragment{
+    suspend fun addToLikeList(data: LikeListFragment): ResponseAPISuccess{
         return api.addToLikeList(data).await()
     }
     suspend fun getLikeList(id: String): LikeList{
@@ -296,17 +303,17 @@ object Request{
         return api.getMyWishList(id).await()
     }
 
-    suspend fun updateWishList(data: String, id: String): WishListFragment{
+    suspend fun updateWishList(data: String, id: String): ResponseAPISuccess{
         return api.updateWishlist(data, id).await()
     }
-    suspend fun updateLikeList(data: String, id: String): LikeListFragment{
+    suspend fun updateLikeList(data: String, id: String): ResponseAPISuccess{
         return api.updateLikeList(data, id).await()
     }
 
-    suspend fun deleteLikeList(userId: String, id: String): LikeListFragment{
+    suspend fun deleteLikeList(userId: String, id: String): ResponseAPISuccess{
         return api.deleteFromLikeList(userId, id).await()
     }
-    suspend fun deleteWishList(userId: String, id: String): WishListFragment{
+    suspend fun deleteWishList(userId: String, id: String): ResponseAPISuccess{
         return api.deleteFromWishList(userId, id).await()
     }
 

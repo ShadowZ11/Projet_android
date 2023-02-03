@@ -104,15 +104,15 @@ class ConnexionFragment : Fragment() {
                         problemFieldEmail.visibility = View.VISIBLE
                         problemFieldPassword.visibility = View.VISIBLE
 
-                        problemFieldEmail.setBackgroundResource(R.drawable.custom_wrong_input_field)
-                        problemFieldPassword.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                        emailEditText.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                        passwordEditText.setBackgroundResource(R.drawable.custom_wrong_input_field)
 
                         Timer().schedule(timerTask {
                             problemFieldEmail.visibility = View.INVISIBLE
                             problemFieldPassword.visibility = View.INVISIBLE
 
-                            problemFieldEmail.setBackgroundResource(R.drawable.custom_edit_text)
-                            problemFieldPassword.setBackgroundResource(R.drawable.custom_edit_text)
+                            emailEditText.setBackgroundResource(R.drawable.custom_edit_text)
+                            passwordEditText.setBackgroundResource(R.drawable.custom_edit_text)
                         }, 7000)
 
                         // Echec de la connexion

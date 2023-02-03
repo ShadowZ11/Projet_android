@@ -62,17 +62,15 @@ class GameDetailsFragment : Fragment() {
         val descriptionButton = view.findViewById<TextView>(R.id.description_path)
         descriptionButton.setBackgroundResource(R.drawable.custom_decription_full)
         val reviewButton = view.findViewById<TextView>(R.id.reviews_path)
-        val like_button = view.findViewById<ImageView>(R.id.to_my_fav)
-        val wishList_button = view.findViewById<ImageView>(R.id.to_my_wish_list)
+        val likeButton = view.findViewById<ImageView>(R.id.to_my_fav)
+        val wishlistButton = view.findViewById<ImageView>(R.id.to_my_wish_list)
 
-        like_button.setOnClickListener {
-            id?.let { it1 -> addToFavorite(it1) }
-            like_button.setBackgroundResource(R.drawable.like_full)
+        likeButton.setOnClickListener {
+            id?.let { it1 -> addToFavorite(it1, likeButton) }
         }
 
-        wishList_button.setOnClickListener {
-            id?.let { it1 -> addToWishList(it1) }
-            like_button.setBackgroundResource(R.drawable.whishlist_full)
+        wishlistButton.setOnClickListener {
+            id?.let { it1 -> addToWishList(it1, wishlistButton) }
         }
 
         reviewButton.setOnClickListener{
@@ -197,7 +195,7 @@ class GameDetailsFragment : Fragment() {
 
     fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-    private fun addToWishList(id: Int){
+    private fun addToWishList(id: Int, image: ImageView){
 
         GlobalScope.launch(Dispatchers.Main) {
 
@@ -207,13 +205,19 @@ class GameDetailsFragment : Fragment() {
                     Request.updateWishList(connect.userId, id.toString())
                 }
                 Log.v("ok", request.toString())
+                image.setBackgroundResource(R.drawable.whishlist_full)
+                image.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 Toast.makeText(context, "Ajout à la wishList ok", Toast.LENGTH_LONG).show()
-            }catch (e: java.lang.Exception){
+            }catch (e: Exception){
                 try {
+                    e.message?.let { Log.e("erreur 1", it) }
                     withContext(Dispatchers.IO){
-                        Request.addToWishList(WishListFragment(connect.userId.toInt(), IdGames(id)))
+                        Request.addToWishList(WishListFragment(connect.userId, IdGames(id)))
                     }
-                }catch (_: Exception){
+                    image.setBackgroundResource(R.drawable.whishlist_full)
+                    image.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                }catch (e: Exception){
+                    e.message?.let { Log.e("erreur 2", it) }
                     Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -221,20 +225,26 @@ class GameDetailsFragment : Fragment() {
 
 
     }
-    private fun addToFavorite(id: Int){
+    private fun addToFavorite(id: Int, image: ImageView){
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
                 withContext(Dispatchers.IO){
                     Request.updateLikeList(connect.userId, id.toString())
                 }
+                image.setBackgroundResource(R.drawable.like_full)
+                image.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 Toast.makeText(context, "Ajout à la LikeList ok", Toast.LENGTH_LONG).show()
             }catch (e: java.lang.Exception){
                 try {
                     withContext(Dispatchers.IO){
-                        Request.addToLikeList(LikeListFragment(connect.userId.toInt(), IdGames(id)))
+                        Request.addToLikeList(LikeListFragment(connect.userId, IdGames(id)))
                     }
-                }catch (_: Exception){
+
+                    image.setBackgroundResource(R.drawable.like_full)
+                    image.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                }catch (e: Exception){
+                    e.message?.let { Log.d("error", it) }
                     Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -242,13 +252,16 @@ class GameDetailsFragment : Fragment() {
     }
 
 
-    private fun removeFromWishList(id: Int){
+    private fun removeFromWishList(id: Int, image: ImageView){
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
                 withContext(Dispatchers.IO){
                     Request.deleteWishList(connect.userId, id.toString())
+
                 }
+                image.setBackgroundResource(R.drawable.like)
+                image.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 Toast.makeText(context, "Suppression de la wishList ok", Toast.LENGTH_LONG).show()
             }catch (e: java.lang.Exception){
 
@@ -258,13 +271,15 @@ class GameDetailsFragment : Fragment() {
         }
     }
 
-    private fun removeFromLikeList(id: Int){
+    private fun removeFromLikeList(id: Int, image: ImageView){
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
                 withContext(Dispatchers.IO){
                     Request.deleteLikeList(connect.userId, id.toString())
                 }
+                image.setBackgroundResource(R.drawable.like)
+                image.scaleType = ImageView.ScaleType.CENTER_INSIDE
                 Toast.makeText(context, "Suppression de la likeList ok", Toast.LENGTH_LONG).show()
             }catch (e: java.lang.Exception){
 

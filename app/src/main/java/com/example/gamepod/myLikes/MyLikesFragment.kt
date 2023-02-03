@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +20,7 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
+import com.example.gamepod.connexion.connect
 import com.example.gamepod.myWishList.MyWishListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -38,6 +42,9 @@ class MyLikesFragment : Fragment() {
         val view = inflater.inflate(R.layout.activity_my_likes, container, false)
         val viewDetails = view.findViewById<LinearLayout>(R.id.myLikesContent)
         val recyclerView : RecyclerView? = activity?.let { RecyclerView(it) }
+        val emptyImage = view.findViewById<ImageView>(R.id.empty_list_image)
+        val emptyText = view.findViewById<TextView>(R.id.empty_list_text)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_load)
 
         if (recyclerView != null) {
             recyclerView.layoutManager = LinearLayoutManager(context)
@@ -48,9 +55,9 @@ class MyLikesFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
-
+                progressBar.visibility = View.VISIBLE
                 val request = withContext(Dispatchers.IO){
-                    Request.getLikeList("1")
+                    Request.getLikeList(connect.userId)
                 }
 
                 for (obj in request.games){
@@ -82,8 +89,12 @@ class MyLikesFragment : Fragment() {
                         }
                     )
             }
-
-            }catch (_: java.lang.Exception){
+                progressBar.visibility = View.INVISIBLE
+                emptyImage.visibility = View.INVISIBLE
+                emptyText.visibility = View.INVISIBLE
+            }catch (e: java.lang.Exception){
+                e.message?.let { Log.e("error", it) }
+                progressBar.visibility = View.INVISIBLE
             }
 
         }

@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,7 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
+import com.example.gamepod.connexion.connect
 import com.example.gamepod.myLikes.MyLikesFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -39,7 +43,12 @@ class MyWishListFragment : Fragment() {
         val view = inflater.inflate(R.layout.activity_my_wish_list, container, false)
         val viewDetails = view.findViewById<LinearLayout>(R.id.myWishListContent)
         val recyclerView : RecyclerView? = activity?.let { RecyclerView(it) }
+        val emptyImage = view.findViewById<ImageView>(R.id.empty_list_image)
+        val emptyText = view.findViewById<TextView>(R.id.empty_list_text)
         val quitFavorite = view.findViewById<ImageView>(R.id.quit_wishlist)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_circular_load)
+
+        progressBar.visibility = View.INVISIBLE
 
         quitFavorite.setOnClickListener {
             listener?.onQuitLikes()
@@ -54,11 +63,11 @@ class MyWishListFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
-
+                progressBar.visibility = View.VISIBLE
                 val request = withContext(Dispatchers.IO){
-                    Request.getMyWishList("1")
+                    Request.getMyWishList(connect.userId)
                 }
-
+                Log.d("bizarre", request.toString())
                 for (obj in request.games){
                     val game = withContext(Dispatchers.IO){
                         Request.getGameById(obj.appid)
@@ -84,9 +93,13 @@ class MyWishListFragment : Fragment() {
                         }
                     )
                 }
+                progressBar.visibility = View.INVISIBLE
+                emptyImage.visibility = View.INVISIBLE
+                emptyText.visibility = View.INVISIBLE
 
             }catch (e: java.lang.Exception){
-
+                e.message?.let { Log.e("error", it) }
+                progressBar.visibility = View.INVISIBLE
             }
 
         }
