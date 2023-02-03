@@ -28,4 +28,5 @@
     <string name="Reviews">Avis</string>
     <string name="search_header">Recherche</string>
     <string name="result_search">Nombre de résultats :</string>
+    <string name="loading">Chargement</string>
 </resources>

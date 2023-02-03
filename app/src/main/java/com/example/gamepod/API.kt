@@ -1,17 +1,16 @@
 package com.example.gamepod
 
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import retrofit2.Call
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import java.util.Date
+import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 
-    //class json pour les avis
+
+//class json pour les avis
 /*    data class AuthorReviews(
         val steamid: Int,
         val num_games_owned: Int,
@@ -49,14 +48,24 @@ import java.util.Date
         val total_reviews: Int
     )*/
 
+    data class IdGames(
+        val appid: Int
+    )
+    data class InfoUserReview(
+        @SerializedName("steamUserId")
+        val idUser: String,
+        @SerializedName("steamUserName")
+        val nameUser: String
+    )
+
     data class Reviews(
         @SerializedName("steamGameId")
         val idGame: Int,
         @SerializedName("steamReviewId")
-        val idReview: Int,
-        val userResume: String,
+        val idReview: String,
+        val steamUserResume: InfoUserReview,
         val description: String,
-        val rating: Float
+        val votedUp: Boolean
     )
 
 
@@ -90,11 +99,17 @@ import java.util.Date
         val items: List<GamesId>
     )
     data class PagesSales(
-        val pages: List<Items>
+        val pages: List<Page>
+    )
+
+    data class Page(
+        val name: String,
+        @SerializedName("item_ids")
+        val items: List<IdGames>
     )
 
     data class ResponseBestSales(
-        val response: PagesSales
+        val response: PagesSales,
     )
 
     //class all Games
@@ -123,18 +138,40 @@ import java.util.Date
         val name: String,
         val description: String,
         val editorName: String,
-        val price: Int,
-        val review: List<Reviews>
+        val price: Float,
+        val reviews: List<Reviews>,
+        @SerializedName("logoURL")
+        val logo: String,
+        @SerializedName("iconURL")
+        val icon: String
     )
 
     data class WishList(
-        val userId: Int,
-        val games: List<Int>
+        val userId: String,
+        @SerializedName("gamesResumeId")
+        val games: List<String>
     )
 
     data class LikeList(
-        val userId: Int,
-        val games: List<Int>
+        val userId: String,
+        @SerializedName("gamesResumeId")
+        val games: List<String>
+    )
+
+    data class WishListFragment(
+        val userId: String,
+        @SerializedName("gamesResumeId")
+        val games: List<String>
+    )
+
+    data class LikeListFragment(
+        val userId: String,
+        @SerializedName("gamesResumeId")
+        val games: List<String>
+    )
+
+    data class ResponseAPISuccess(
+        val message: String
     )
 
     //Get Game
@@ -142,51 +179,142 @@ import java.util.Date
         val id: Int
     )
 
+    data class getUser(
+        val id: Int
+    )
+
+
 interface API {
 
     @GET("/ISteamApps/GetAppList/v2/")
-    fun getAllGames(): Call<ResponseAllGames>
+    fun getAllGames(): Deferred<ResponseAllGames>
 
     @GET("/ISteamChartsService/GetTopReleasesPages/v1/")
-    fun getTopRealease(): Call<ResponseBestSales>
+    fun getTopRelease(): Deferred<ResponseBestSales>
 
     @GET("/ISteamChartsService/GetMostPlayedGames/v1/?")
-    fun getRanking(): Call<Ranking>
+    fun getRanking(): Deferred<Ranking>
 
-    @GET("/getGame")
-    fun getGameByName(): Call<getGame>
+    @GET("/app/gamesFull/gameName/{name}")
+    fun getGameByName(@Path("name") name: String): Deferred<List<Game>>
 
-    @GET("/api/appdetails")
-    fun getGames(@Query("appids") id: String): Call<Game>
+    @GET("/app/gamesFull/steamGameId/{id}")
+    fun getGameById(@Path("id") id: Int): Deferred<Game>
 
     @GET("/appreviews/{id}")
-    fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Call<Reviews>
+    fun getOpinionGame(@Path("id") id: Long, @Query("json") ok: String): Deferred<Reviews>
 
-    @GET("/users/{id}")
-    fun getUser(@Path("id") id: Int)
+    @GET("/app/users/userId/{id}")
+    fun getUser(@Path("id") id: Int): Deferred<getUser>
+
+    @GET("/app/wishlists/userId/{userId}")
+    fun getMyWishList(@Path("userId") id: String): Deferred<WishList>
+
+    @GET("/app/likelists/userId/{userId}")
+    fun getMyLikeList(@Path("userId") id: String): Deferred<LikeList>
+
+    @POST("/app/wishlists")
+    fun addToWishlist(@Body data: WishListFragment): Deferred<ResponseAPISuccess>
+
+    @POST("/app/likelists")
+    fun addToLikeList(@Body data: LikeListFragment): Deferred<ResponseAPISuccess>
+
+    @PUT("/app/wishlists/userId/{userId}/add/gameResumeId/{gameId}")
+    fun updateWishlist(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
+
+    @PUT("/app/likelists/userId/{userId}/add/gameResumeId/{gameId}")
+    fun updateLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
+
+    @DELETE("/app/wishlists/userId/{userId}/delete/gameResumeId/{gameId}")
+    fun deleteFromWishList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
+
+    @DELETE("/app/likelists/userId/{userId}/delete/gameResumeId/{gameId}")
+    fun deleteFromLikeList(@Path("userId") data: String, @Path("gameId") id: String): Deferred<ResponseAPISuccess>
+
 
 }
 
 object Request{
 
+    private val okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
+        .connectTimeout(60, TimeUnit.MINUTES)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
+        .build()
+
     private val api = Retrofit.Builder()
-        .baseUrl("gfsdgsd")
+        .baseUrl("https://us-central1-androidsteam-b9b14.cloudfunctions.net")
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
         .build()
         .create(API::class.java)
 
+    private val apiSteam = Retrofit.Builder()
+        .baseUrl("https://api.steampowered.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
+        .build()
+        .create(API::class.java)
+
+    private val apiSteamSales = Retrofit.Builder()
+        .baseUrl("https://steamcommunity.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(okHttpClient)
+        .build()
+        .create(API::class.java)
+
+
     suspend fun getAllGames(): ResponseAllGames{
-        return api.getAllGames().await()
+        return apiSteam.getAllGames().await()
     }
-    suspend fun getTopRealease(): ResponseBestSales {
-        return api.getTopRealease().await()
+    suspend fun getTopRelease(): ResponseBestSales {
+        return apiSteam.getTopRelease().await()
     }
     suspend fun getRanking(): Ranking {
-        return api.getRanking().await()
+        return apiSteam.getRanking().await()
     }
 
-    suspend fun getGame(): getGame{
-        return api.getGameByName().await()
+    suspend fun getGameById(id: Int): Game{
+        return api.getGameById(id).await()
+    }
+
+    suspend fun getGameByName(name: String): List<Game>{
+        return api.getGameByName(name).await()
+    }
+
+    suspend fun getOpinionGame(id: Long, value: String = "1"): Reviews{
+        return api.getOpinionGame(id, value).await()
+    }
+
+    suspend fun addToWishList(data: WishListFragment): ResponseAPISuccess{
+        return api.addToWishlist(data).await()
+    }
+    suspend fun addToLikeList(data: LikeListFragment): ResponseAPISuccess{
+        return api.addToLikeList(data).await()
+    }
+    suspend fun getLikeList(id: String): LikeList{
+        return api.getMyLikeList(id).await()
+    }
+
+    suspend fun getMyWishList(id: String): WishList{
+        return api.getMyWishList(id).await()
+    }
+
+    suspend fun updateWishList(data: String, id: String): ResponseAPISuccess{
+        return api.updateWishlist(data, id).await()
+    }
+    suspend fun updateLikeList(data: String, id: String): ResponseAPISuccess{
+        return api.updateLikeList(data, id).await()
+    }
+
+    suspend fun deleteLikeList(userId: String, id: String): ResponseAPISuccess{
+        return api.deleteFromLikeList(userId, id).await()
+    }
+    suspend fun deleteWishList(userId: String, id: String): ResponseAPISuccess{
+        return api.deleteFromWishList(userId, id).await()
     }
 
 }

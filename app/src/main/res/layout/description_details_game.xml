@@ -6,6 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/description_game"
         android:theme="@style/TextAppearance.GamePod"
         android:textSize="19sp"
         />

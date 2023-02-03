@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:id="@+id/password"
                 android:background="@drawable/custom_edit_text"
                 android:layout_gravity="center"
