@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.gameDetails.GameDetailsActivity
+import com.squareup.picasso.Picasso
 import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
@@ -38,11 +39,14 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
                 val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 holder.picture.post {
                     holder.picture.setImageBitmap(bitmap)
+                    Picasso.get().load(url.toString()).resize(300, 200).into(holder.picture)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
+
+
     }
 
     override fun getItemCount() = games.size
