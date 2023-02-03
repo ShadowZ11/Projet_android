@@ -18,6 +18,9 @@ import com.example.gamepod.GamePreview
 import com.example.gamepod.ListGameAdapter
 import com.example.gamepod.R
 import com.example.gamepod.Request
+import com.example.gamepod.connexion.ConnexionActivity
+import com.example.gamepod.connexion.ConnexionFragment
+import com.example.gamepod.connexion.connect
 import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.example.gamepod.myLikes.MyLikesActivity
 import com.example.gamepod.myWishList.MyWishListActivity
@@ -52,6 +55,7 @@ class MainFragment : Fragment() {
         val search_game = view.findViewById<ImageView>(R.id.search_game)
         val edit_search = view.findViewById<EditText>(R.id.value_search_game)
         val showMore = view.findViewById<Button>(R.id.show_more_game)
+        val disconnectButton = view.findViewById<ImageView>(R.id.disconnect_button)
 
         showMore.setOnClickListener{
             val intent = Intent(activity, GameDetailsActivity::class.java)
@@ -67,6 +71,16 @@ class MainFragment : Fragment() {
         myWishList.setOnClickListener {
             val toMyWishList = Intent(activity, MyWishListActivity::class.java)
             startActivity(toMyWishList)
+        }
+
+        disconnectButton.setOnClickListener {
+
+            connect.uuidUser = ""
+            connect.email = ""
+
+            val intent = Intent(activity, ConnexionActivity::class.java)
+            startActivity(intent)
+
         }
 
         search_game.setOnClickListener {

@@ -2,24 +2,40 @@ package com.example.gamepod.connexion
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gamepod.R
+import com.example.gamepod.forgotPassword.ForgotPasswordActivity
 import com.example.gamepod.inscription.InscriptionActivity
 import com.example.gamepod.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timerTask
 
+class connect{
+    companion object{
+        @JvmStatic lateinit var uuidUser: String
+        @JvmStatic lateinit var email: String
+    }
+
+}
 class ConnexionFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
+
+
 
     companion object {
         fun newInstance() = ConnexionFragment()
@@ -39,6 +55,11 @@ class ConnexionFragment : Fragment() {
 
         val emailEditText = view.findViewById<EditText>(R.id.email)
         val passwordEditText = view.findViewById<EditText>(R.id.password)
+        val problemFieldEmail = view.findViewById<ImageView>(R.id.problem_field_email)
+        val problemFieldPassword = view.findViewById<ImageView>(R.id.problem_field_password)
+
+        problemFieldEmail.visibility = View.INVISIBLE
+        problemFieldPassword.visibility = View.INVISIBLE
 
         val connectButton = view.findViewById<Button>(R.id.connect_button)
         connectButton.setOnClickListener {
@@ -50,10 +71,28 @@ class ConnexionFragment : Fragment() {
                     if (task.isSuccessful) {
                         // Connexion réussie
                         val user = auth.currentUser
+                        if (user != null) {
+                            connect.uuidUser = user.uid
+                            connect.email = user.email.toString()
+                        }
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)
                         activity?.finish()
                     } else {
+                        problemFieldEmail.visibility = View.VISIBLE
+                        problemFieldPassword.visibility = View.VISIBLE
+
+                        problemFieldEmail.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                        problemFieldPassword.setBackgroundResource(R.drawable.custom_wrong_input_field)
+
+                        Timer().schedule(timerTask {
+                            problemFieldEmail.visibility = View.INVISIBLE
+                            problemFieldPassword.visibility = View.INVISIBLE
+
+                            problemFieldEmail.setBackgroundResource(R.drawable.custom_edit_text)
+                            problemFieldPassword.setBackgroundResource(R.drawable.custom_edit_text)
+                        }, 7000)
+
                         // Echec de la connexion
                         Toast.makeText(requireContext(), "Echec de la connexion",
                             Toast.LENGTH_SHORT).show()
@@ -66,6 +105,12 @@ class ConnexionFragment : Fragment() {
         val mSpannableString = SpannableString(strForgotPassword)
         mSpannableString.setSpan(UnderlineSpan(), 0, mSpannableString.length, 0)
         forgotPassword.text = mSpannableString
+
+        forgotPassword.setOnClickListener{
+            val newForgotPassword = Intent(activity, ForgotPasswordActivity::class.java)
+            startActivity(newForgotPassword)
+            activity?.finish()
+        }
 
         val createAccount = view.findViewById<Button>(R.id.create_account)
         createAccount.setOnClickListener {

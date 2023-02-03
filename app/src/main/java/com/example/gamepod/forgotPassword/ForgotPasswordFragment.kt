@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gamepod.R
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class ForgotPasswordFragment : Fragment() {
 
@@ -32,6 +35,8 @@ class ForgotPasswordFragment : Fragment() {
         val descriptionHeader = view.findViewById<TextView>(R.id.description_forgot_password)
         val emailField = view.findViewById<EditText>(R.id.email)
         val sendButton = view.findViewById<Button>(R.id.button_reset)
+        val problemFieldEmail = view.findViewById<ImageView>(R.id.problem_field_email)
+        problemFieldEmail.visibility = View.INVISIBLE
 
         titleTextHeader.text = titleTextHeader.text.substring(0, titleTextHeader.text.length - 2)
 
@@ -54,6 +59,13 @@ class ForgotPasswordFragment : Fragment() {
                         }
                     }
             } else {
+                problemFieldEmail.visibility = View.VISIBLE
+
+                emailField.setBackgroundResource(R.drawable.custom_wrong_input_field)
+
+                Timer().schedule(timerTask {
+                    problemFieldEmail.visibility = View.INVISIBLE
+                    emailField.setBackgroundResource(R.drawable.custom_edit_text)}, 7000)
                 Toast.makeText(requireContext(), "Le champ email est vide", Toast.LENGTH_LONG)
                     .show()
             }

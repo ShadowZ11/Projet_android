@@ -56,6 +56,13 @@
                 android:layout_weight="0.5"
                 android:scaleType="centerInside"
                 />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:id="@+id/disconnect_button"
+                android:src="@drawable/disconnect"
+                />
         </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

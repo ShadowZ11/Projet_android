@@ -15,6 +15,8 @@ import com.example.gamepod.main.MainActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class InscriptionFragment : Fragment() {
 
@@ -66,18 +68,31 @@ class InscriptionFragment : Fragment() {
             val password = passwordField.text.toString()
 
             if (TextUtils.isEmpty(email)) {
-                warningEmailField.visibility = View.INVISIBLE
+                warningEmailField.visibility = View.VISIBLE
                 emailField.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                Timer().schedule(timerTask {
+                    warningEmailField.visibility = View.INVISIBLE
+                    emailField.setBackgroundResource(R.drawable.custom_edit_text)}, 7000)
                 Toast.makeText(context, "Enter email address!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (TextUtils.isEmpty(password)) {
+                warningPasswordField.visibility = View.VISIBLE
+                passwordField.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                Timer().schedule(timerTask {
+                    warningPasswordField.visibility = View.INVISIBLE
+                    passwordField.setBackgroundResource(R.drawable.custom_edit_text)}, 7000)
                 Toast.makeText(context, "Enter password!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (password.length < 6) {
+                warningPasswordField.visibility = View.VISIBLE
+                passwordField.setBackgroundResource(R.drawable.custom_wrong_input_field)
+                Timer().schedule(timerTask {
+                    warningPasswordField.visibility = View.INVISIBLE
+                    passwordField.setBackgroundResource(R.drawable.custom_edit_text)}, 7000)
                 Toast.makeText(
                     context,
                     "Password too short, enter minimum 6 characters!",
