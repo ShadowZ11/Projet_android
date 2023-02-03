@@ -2,6 +2,8 @@ package com.example.gamepod.myLikes
 
 import InscriptionFragment
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +68,20 @@ class MyLikesFragment : Fragment() {
                 val adapter = ListGameAdapter(games)
                 if (recyclerView != null) {
                     recyclerView.adapter = adapter
-                }
+                    recyclerView.addItemDecoration(
+                        object : RecyclerView.ItemDecoration() {
+                            override fun getItemOffsets(
+                                outRect: Rect,
+                                view: View,
+                                parent: RecyclerView,
+                                state: RecyclerView.State
+                            ) {
+                                super.getItemOffsets(outRect, view, parent, state)
+                                outRect.bottom = 12.dpToPx()
+                            }
+                        }
+                    )
+            }
 
             }catch (_: java.lang.Exception){
             }
@@ -83,6 +98,8 @@ class MyLikesFragment : Fragment() {
 
         return view
     }
+
+    fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
