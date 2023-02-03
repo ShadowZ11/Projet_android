@@ -25,7 +25,6 @@ import com.example.gamepod.gameDetails.GameDetailsActivity
 import com.example.gamepod.myLikes.MyLikesActivity
 import com.example.gamepod.myWishList.MyWishListActivity
 import com.example.gamepod.search.SearchActivity
-import com.example.gamepod.search.SearchFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

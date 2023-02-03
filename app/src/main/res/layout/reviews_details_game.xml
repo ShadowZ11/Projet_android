@@ -40,6 +40,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.35"
         android:id="@+id/review_description"
-        android:textSize="20sp"/>
+        android:textColor="@color/white"
+        android:textSize="17sp"/>
 
 </LinearLayout>
