@@ -29,4 +29,5 @@
     <string name="search_header">Recherche</string>
     <string name="result_search">Nombre de résultats :</string>
     <string name="loading">Chargement</string>
+    <string name="price">"Prix : "</string>
 </resources>

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/final_project_nav"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/connexionFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.gamepod.main.MainFragment"
@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_connexionFragment_to_inscriptionFragment"
             app:destination="@id/inscriptionFragment" />
+        <action
+            android:id="@+id/action_connexionFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -58,5 +61,9 @@
     <fragment
         android:id="@+id/inscriptionFragment"
         android:name="InscriptionFragment"
-        android:label="InscriptionFragment" />
+        android:label="InscriptionFragment" >
+        <action
+            android:id="@+id/action_inscriptionFragment_to_connexionFragment"
+            app:destination="@id/connexionFragment" />
+    </fragment>
 </navigation>

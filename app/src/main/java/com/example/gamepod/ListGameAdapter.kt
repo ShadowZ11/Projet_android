@@ -1,5 +1,6 @@
 package com.example.gamepod
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -7,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.content.Context
+import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.gameDetails.GameDetailsActivity
+import com.google.rpc.context.AttributeContext.Resource
 import com.squareup.picasso.Picasso
 import java.io.IOException
 import java.net.URL
@@ -21,6 +25,7 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
         return ViewHolder(layout)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, GameDetailsActivity::class.java)
@@ -31,7 +36,11 @@ class ListGameAdapter(private val games: List<GamePreview>) : RecyclerView.Adapt
         val game = games[position]
         holder.title.text = game.title
         holder.description.text = game.description
-        holder.price.text = "Price: " + game.price + "€"
+        if (game.price.toFloat() == 0f){
+            holder.price.text =  "Gratuit"
+        }else{
+            holder.price.text =  "Prix: " + game.price + "€"
+        }
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {

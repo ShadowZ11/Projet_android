@@ -140,7 +140,7 @@ class InscriptionFragment : Fragment() {
                                 return@addOnFailureListener
                             }
 
-                        val intent = Intent(activity, MainActivity::class.java)
+                        val intent = Intent(activity, ConnexionActivity::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(
