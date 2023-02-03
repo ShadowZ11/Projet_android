@@ -108,6 +108,7 @@
             android:scaleType="centerInside"
             android:layout_gravity="start|center"
             android:src="@drawable/fifa_23_jacket"
+            android:id="@+id/gameDetailsImg"
             />
 
         <LinearLayout

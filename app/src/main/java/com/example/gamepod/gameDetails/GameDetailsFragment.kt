@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 
 class GameDetailsFragment : Fragment() {
@@ -100,7 +101,6 @@ class GameDetailsFragment : Fragment() {
         var nameGame: String = ""
         var editorGame: String = ""
 
-
         GlobalScope.launch(Dispatchers.Main) {
             progressDialog = AlertDialog.Builder(activity)
                 .setTitle("Chargement de la page de jeu...")
@@ -118,10 +118,6 @@ class GameDetailsFragment : Fragment() {
                     Request.getGameById(idGame)
                 }
 
-                /* Formater la classe en json
-                val jsonObject = Gson().toJson(request)
-                val convertedObject = Gson().fromJson(jsonObject, Game::class.java)*/
-
                 nameGame = request.name
                 editorGame = request.editorName
                 description = request.description
@@ -136,7 +132,8 @@ class GameDetailsFragment : Fragment() {
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
             progressDialog.dismiss()
-
+            Picasso.get().load(icon).resize(200, 250).into(view.findViewById<ImageView>(R.id.gameDetailsImg))
+            Picasso.get().load(logo).resize(500, 250).into(view.findViewById<ImageView>(R.id.image_description_game))
             view.findViewById<TextView>(R.id.game_details_title).text = nameGame
             view.findViewById<TextView>(R.id.game_editor_description).text = editorGame
             val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, viewReviews, false)
