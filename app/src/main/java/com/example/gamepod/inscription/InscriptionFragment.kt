@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.gamepod.main.MainActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -22,6 +24,7 @@ class InscriptionFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var emailField: EditText
+    private lateinit var usernameField: EditText
     private lateinit var passwordField: EditText
     private lateinit var progressDialog: AlertDialog
 
@@ -39,6 +42,7 @@ class InscriptionFragment : Fragment() {
 
         emailField = view.findViewById(R.id.email_field)
         passwordField = view.findViewById(R.id.password_field)
+        usernameField = view.findViewById(R.id.username_field)
 
         val warningEmailField = view.findViewById<ImageView>(R.id.problem_field_email)
         val warningUsernameField = view.findViewById<ImageView>(R.id.problem_field_username)
@@ -110,11 +114,32 @@ class InscriptionFragment : Fragment() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), OnCompleteListener<AuthResult> { task ->
                     if (task.isSuccessful) {
+                        val db = FirebaseFirestore.getInstance()
+                        val collectionReference = db.collection("users")
                         val user = auth.currentUser
-                        Toast.makeText(
-                            context, "Registration Successful. Welcome ${user?.email}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
+                        val userData = hashMapOf(
+                            "userId" to (user?.uid ?: String),
+                            "username" to usernameField.text.toString()
+                        )
+
+                        collectionReference
+                            .add(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                context, "Registration Successful. Welcome ${user?.email}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(
+                                    context,
+                                    "Registration failed. ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                return@addOnFailureListener
+                            }
+
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)
                     } else {

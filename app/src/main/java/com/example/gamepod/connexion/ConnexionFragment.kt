@@ -20,6 +20,7 @@ import com.example.gamepod.forgotPassword.ForgotPasswordActivity
 import com.example.gamepod.inscription.InscriptionActivity
 import com.example.gamepod.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.concurrent.timerTask
@@ -28,6 +29,8 @@ class connect{
     companion object{
         @JvmStatic lateinit var uuidUser: String
         @JvmStatic lateinit var email: String
+        @JvmStatic lateinit var userId: String
+        @JvmStatic lateinit var username: String
     }
 
 }
@@ -70,10 +73,29 @@ class ConnexionFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         // Connexion réussie
+                        val db = FirebaseFirestore.getInstance()
+                        val collectionReference = db.collection("users")
                         val user = auth.currentUser
                         if (user != null) {
                             connect.uuidUser = user.uid
                             connect.email = user.email.toString()
+                        }else{
+                            Toast.makeText(requireContext(), "Echec de la connexion",
+                                Toast.LENGTH_SHORT).show()
+                            return@addOnCompleteListener
+                        }
+                        collectionReference.get().addOnSuccessListener { result ->
+                            for (document in result) {
+                                if (connect.uuidUser == document.data["userId"]){
+                                    connect.userId = document.data["userId"].toString()
+                                    connect.username = document.data["username"].toString()
+                                    break
+                                }
+                            }
+                        }.addOnFailureListener { exception ->
+                            Toast.makeText(requireContext(), "Echec de la connexion",
+                                Toast.LENGTH_SHORT).show()
+                            return@addOnFailureListener
                         }
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)

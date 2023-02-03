@@ -77,10 +77,12 @@ class MainFragment : Fragment() {
 
             connect.uuidUser = ""
             connect.email = ""
+            connect.username = ""
+            connect.userId = ""
 
             val intent = Intent(activity, ConnexionActivity::class.java)
             startActivity(intent)
-
+            activity?.finish()
         }
 
         search_game.setOnClickListener {

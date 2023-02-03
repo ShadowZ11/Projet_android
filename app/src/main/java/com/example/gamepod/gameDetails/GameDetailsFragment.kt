@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gamepod.*
+import com.example.gamepod.connexion.connect
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 
@@ -63,12 +64,12 @@ class GameDetailsFragment : Fragment() {
         val wishList_button = view.findViewById<ImageView>(R.id.to_my_wish_list)
 
         like_button.setOnClickListener {
-            id?.let { it1 -> addToFavorite(it1, 1) }
+            id?.let { it1 -> addToFavorite(it1) }
             like_button.setBackgroundResource(R.drawable.like_full)
         }
 
         wishList_button.setOnClickListener {
-            id?.let { it1 -> addToWishList(it1, 1) }
+            id?.let { it1 -> addToWishList(it1) }
             like_button.setBackgroundResource(R.drawable.whishlist_full)
         }
 
@@ -126,20 +127,23 @@ class GameDetailsFragment : Fragment() {
                 id = request.id
                 allReviews = request.reviews
 
+                progressDialog.dismiss()
+                Picasso.get().load(icon).resize(200, 250).into(view.findViewById<ImageView>(R.id.gameDetailsImg))
+                Picasso.get().load(logo).resize(500, 250).into(view.findViewById<ImageView>(R.id.image_description_game))
+                view.findViewById<TextView>(R.id.game_details_title).text = nameGame
+                view.findViewById<TextView>(R.id.game_editor_description).text = editorGame
+                val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, viewReviews, false)
+                descriptionView.findViewById<TextView>(R.id.description_game).text = description
+                viewReviews.addView(descriptionView)
+                viewReviews.requestLayout()
+
             } catch (e: Exception) {
                 print(e.message)
                 e.message?.let { Log.e("erreur", it) }
                 Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                activity?.finish()
             }
-            progressDialog.dismiss()
-            Picasso.get().load(icon).resize(200, 250).into(view.findViewById<ImageView>(R.id.gameDetailsImg))
-            Picasso.get().load(logo).resize(500, 250).into(view.findViewById<ImageView>(R.id.image_description_game))
-            view.findViewById<TextView>(R.id.game_details_title).text = nameGame
-            view.findViewById<TextView>(R.id.game_editor_description).text = editorGame
-            val descriptionView: View = layoutInflater.inflate(R.layout.description_details_game, viewReviews, false)
-            descriptionView.findViewById<TextView>(R.id.description_game).text = description
-            viewReviews.addView(descriptionView)
-            viewReviews.requestLayout()
+
         }
 
         return view
@@ -177,33 +181,75 @@ class GameDetailsFragment : Fragment() {
     }
 
 
-    private fun addToWishList(id: Int, idUser: Int){
+    private fun addToWishList(id: Int){
 
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
 
-                withContext(Dispatchers.IO){
-                    Request.addToWishList(WishListFragment(idUser, IdGames(id)))
+                val request = withContext(Dispatchers.IO){
+                    Request.updateWishList(connect.userId, id.toString())
                 }
-
+                Log.v("ok", request.toString())
+                Toast.makeText(context, "Ajout à la wishList ok", Toast.LENGTH_LONG).show()
             }catch (e: java.lang.Exception){
-
-                Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
-
+                try {
+                    withContext(Dispatchers.IO){
+                        Request.addToWishList(WishListFragment(connect.userId.toInt(), IdGames(id)))
+                    }
+                }catch (_: Exception){
+                    Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
 
     }
-    private fun addToFavorite(id: Int, idUser: Int){
+    private fun addToFavorite(id: Int){
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
                 withContext(Dispatchers.IO){
-                    Request.addToLikeList(LikeListFragment(idUser, IdGames(id)))
+                    Request.updateLikeList(connect.userId, id.toString())
                 }
+                Toast.makeText(context, "Ajout à la LikeList ok", Toast.LENGTH_LONG).show()
+            }catch (e: java.lang.Exception){
+                try {
+                    withContext(Dispatchers.IO){
+                        Request.addToLikeList(LikeListFragment(connect.userId.toInt(), IdGames(id)))
+                    }
+                }catch (_: Exception){
+                    Toast.makeText(context, "Impossible d'ajouter à la wishList", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
+
+    private fun removeFromWishList(id: Int){
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+                withContext(Dispatchers.IO){
+                    Request.deleteWishList(connect.userId, id.toString())
+                }
+                Toast.makeText(context, "Suppression de la wishList ok", Toast.LENGTH_LONG).show()
+            }catch (e: java.lang.Exception){
+
+                Toast.makeText(context, "Impossible d'ajouter à la likeList", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
+    private fun removeFromLikeList(id: Int){
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+                withContext(Dispatchers.IO){
+                    Request.deleteLikeList(connect.userId, id.toString())
+                }
+                Toast.makeText(context, "Suppression de la likeList ok", Toast.LENGTH_LONG).show()
             }catch (e: java.lang.Exception){
 
                 Toast.makeText(context, "Impossible d'ajouter à la likeList", Toast.LENGTH_SHORT).show()
